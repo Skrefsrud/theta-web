@@ -75,7 +75,7 @@ export function HeroSection() {
                 <div className="absolute inset-0 scale-95 bg-gradient-to-b from-transparent via-transparent to-black/40 blur-xl" />
 
                 <Image
-                  src="/images/concept-art-outside-nobg.png"
+                  src="/images/concept_art_outside_nobg.png"
                   alt="ThetaMask LED Meditation Mask"
                   width={800}
                   height={600}
