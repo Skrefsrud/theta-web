@@ -79,7 +79,7 @@ export function HeroSection() {
                   alt="ThetaMask LED Meditation Mask"
                   width={800}
                   height={600}
-                  className="relative z-10 object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:drop-shadow-[0_30px_80px_rgba(6,182,212,0.3)] transition-all duration-700 ease-out animate-[float_6s_ease-in-out_infinite]"
+                  className="relative z-10 object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out animate-[float_6s_ease-in-out_infinite]"
                   priority
                 />
               </div>

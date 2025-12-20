@@ -1,12 +1,25 @@
 "use client";
 
 import type React from "react";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { X } from "lucide-react";
 import { submitWaitlistEmail } from "@/actions/waitlist";
+import { useToast } from "./toast-context";
+
+/**
+ * SIMULATE_MODE - Toggle between simulation and real database calls
+ *
+ * true:  Simulates API calls for local testing
+ *        - Use any email for success toast
+ *        - Use "error@test.com" to test error toast
+ * false: Makes real calls to Neon database via server actions
+ *
+ * Set to false before deploying to production!
+ */
+const SIMULATE_MODE = true;
 
 interface WaitlistModalProps {
   open: boolean;
@@ -18,6 +31,19 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [isPending, startTransition] = useTransition();
+  const { showToast } = useToast();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Auto-focus input when modal opens
+  useEffect(() => {
+    if (open && inputRef.current) {
+      // Small delay to ensure modal animation completes
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,24 +51,53 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
     if (!email || !email.includes("@")) {
       setStatus("error");
       setErrorMessage("Please enter a valid email address.");
+      showToast("Please enter a valid email address.", "error");
       return;
     }
 
     startTransition(async () => {
-      const result = await submitWaitlistEmail(email);
+      if (SIMULATE_MODE) {
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      if (result.success) {
-        setStatus("success");
-        setEmail("");
-        setErrorMessage("");
+        // Simulate success or error based on email pattern
+        // Use "error@test.com" to test error state, any other email for success
+        const shouldError = email.includes("error@");
 
-        setTimeout(() => {
-          setStatus("idle");
-          onOpenChange(false);
-        }, 2000);
+        if (shouldError) {
+          setStatus("error");
+          setErrorMessage("Failed to join waitlist. Please try again.");
+          showToast("Failed to join waitlist. Please try again.", "error");
+        } else {
+          setStatus("success");
+          setEmail("");
+          setErrorMessage("");
+          showToast("Thank you! You've been added to the waitlist.", "success");
+
+          setTimeout(() => {
+            setStatus("idle");
+            onOpenChange(false);
+          }, 1500);
+        }
       } else {
-        setStatus("error");
-        setErrorMessage(result.message);
+        // Real server action call
+        const result = await submitWaitlistEmail(email);
+
+        if (result.success) {
+          setStatus("success");
+          setEmail("");
+          setErrorMessage("");
+          showToast(result.message, "success");
+
+          setTimeout(() => {
+            setStatus("idle");
+            onOpenChange(false);
+          }, 1500);
+        } else {
+          setStatus("error");
+          setErrorMessage(result.message);
+          showToast(result.message, "error");
+        }
       }
     });
   };
@@ -82,6 +137,7 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
               <Input
+                ref={inputRef}
                 type="email"
                 placeholder="Enter your email"
                 value={email}

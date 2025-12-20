@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Image from "next/image";
 
 const sections = [
   {
@@ -17,39 +17,49 @@ const sections = [
       "Brainwave entrainment through synchronized light patterns trains your brain to enter meditative states effortlessly, building focus over time.",
     image: "/images/theta-meditating.png",
   },
-]
+];
 
 export function ProblemSolution() {
   return (
-    <section id="science" className="relative py-24 md:py-32 overflow-hidden">
+    <section id="science" className="relative py-16 md:py-20 overflow-hidden">
       <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-cyan-500/10 via-purple-500/5 to-transparent blur-[100px]" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="bg-white/5 backdrop-blur-md rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-white/10 p-10 md:p-20 space-y-32">
-          {sections.map((section, index) => (
+      <div className="container mx-auto px-4 md:px-6 relative z-10 space-y-16">
+        {sections.map((section, index) => (
+          <div key={index} className="p-10 md:p-20">
             <div
-              key={index}
-              className={`flex flex-col ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} gap-12 items-start`}
+              className={`flex flex-col ${
+                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+              } gap-12 items-start`}
             >
               {/* Text Content */}
               <div className="flex-1 space-y-6">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent text-balance mb-8 drop-shadow-[0_2px_8px_rgba(6,182,212,0.3)]">
                   {section.problem}
                 </h2>
-                <p className="text-lg text-slate-300 leading-relaxed">{section.empathy}</p>
+                <p className="text-lg text-slate-300 leading-relaxed">
+                  {section.empathy}
+                </p>
                 <div className="pt-4 border-t-2 border-cyan-500/50">
-                  <p className="text-xl text-slate-200 leading-relaxed font-medium">{section.solution}</p>
+                  <p className="text-xl text-slate-200 leading-relaxed font-medium">
+                    {section.solution}
+                  </p>
                 </div>
               </div>
 
               {/* Image */}
               <div className="flex-1 relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
-                <Image src={section.image || "/placeholder.svg"} alt={section.problem} fill className="object-cover" />
+                <Image
+                  src={section.image || "/placeholder.svg"}
+                  alt={section.problem}
+                  fill
+                  className="object-cover"
+                />
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
-  )
+  );
 }

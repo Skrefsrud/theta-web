@@ -253,6 +253,27 @@
   }
 }
 
+/* shrink animation for toast progress bar */
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }

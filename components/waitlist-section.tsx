@@ -11,7 +11,7 @@ export function WaitlistSection() {
     <>
       <section
         id="waitlist"
-        className="relative py-24 md:py-32 overflow-hidden"
+        className="relative py-16 md:py-20 overflow-hidden"
       >
         <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-radial from-cyan-500/15 via-purple-500/10 to-transparent blur-[120px] animate-[breathing_8s_ease-in-out_infinite]" />
 
