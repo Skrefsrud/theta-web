@@ -42,7 +42,7 @@ export function TrustBar() {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   return (
-    <section className="relative pt-10 pb-10">
+    <section className="relative pt-10 pb-20">
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">

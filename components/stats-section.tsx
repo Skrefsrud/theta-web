@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { SectionSeparator } from "./section-separator";
+import { SectionLabel, SectionIcons } from "./section-label";
 
 export function StatsSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -44,7 +46,7 @@ export function StatsSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-2 md:py-4 bg-transparent overflow-hidden"
+      className="relative pt-0 pb-16 md:pb-24 bg-[#0a0a20] overflow-hidden"
     >
       {/* Ambient background glow */}
       <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-radial from-purple-500/10 via-cyan-500/5 to-transparent blur-[100px] pointer-events-none" />

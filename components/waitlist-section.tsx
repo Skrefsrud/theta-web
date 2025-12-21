@@ -1,17 +1,86 @@
 "use client";
 
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { WaitlistModal } from "./waitlist-modal";
-import { useWaitlist } from "./waitlist-context";
+import { Input } from "@/components/ui/input";
+import { submitWaitlistEmail } from "@/actions/waitlist";
+import { useToast } from "./toast-context";
+import { SectionSeparator } from "./section-separator";
+import { SectionLabel, SectionIcons } from "./section-label";
+
+/**
+ * SIMULATE_MODE - Toggle between simulation and real database calls
+ *
+ * true:  Simulates API calls for local testing
+ *        - Use any email for success toast
+ *        - Use "error@test.com" to test error toast
+ * false: Makes real calls to Neon database via server actions
+ *
+ * Set to false before deploying to production!
+ */
+const SIMULATE_MODE = true;
 
 export function WaitlistSection() {
-  const { openModal, isOpen, closeModal } = useWaitlist();
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [isPending, startTransition] = useTransition();
+  const { showToast } = useToast();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !email.includes("@")) {
+      setStatus("error");
+      showToast("Please enter a valid email address.", "error");
+      return;
+    }
+
+    startTransition(async () => {
+      if (SIMULATE_MODE) {
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Simulate success or error based on email pattern
+        const shouldError = email.includes("error@");
+
+        if (shouldError) {
+          setStatus("error");
+          showToast("Failed to join waitlist. Please try again.", "error");
+        } else {
+          setStatus("success");
+          showToast("Thank you! You've been added to the waitlist.", "success");
+          setEmail("");
+
+          setTimeout(() => {
+            setStatus("idle");
+          }, 2000);
+        }
+      } else {
+        // Real server action call
+        const result = await submitWaitlistEmail(email);
+
+        if (result.success) {
+          setStatus("success");
+          showToast(result.message, "success");
+          setEmail("");
+
+          setTimeout(() => {
+            setStatus("idle");
+          }, 2000);
+        } else {
+          setStatus("error");
+          showToast(result.message, "error");
+        }
+      }
+    });
+  };
 
   return (
     <>
+      <SectionSeparator variant="gradient" />
       <section
         id="waitlist"
-        className="relative py-16 md:py-20 overflow-hidden"
+        className="relative pt-16 pb-28 md:pt-24 md:pb-28 overflow-hidden bg-[#0b0b26]"
       >
         <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-radial from-cyan-500/15 via-purple-500/10 to-transparent blur-[120px] animate-[breathing_8s_ease-in-out_infinite]" />
 
@@ -30,13 +99,33 @@ export function WaitlistSection() {
                 </p>
               </div>
 
-              <Button
-                onClick={openModal}
-                size="lg"
-                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-semibold text-lg px-12 py-7 rounded-full shadow-2xl shadow-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105"
+              <form
+                onSubmit={handleSubmit}
+                className="max-w-md mx-auto space-y-4"
               >
-                Join the Waitlist
-              </Button>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isPending || status === "success"}
+                    className="flex-1 bg-white/10 border-cyan-500/30 text-white placeholder:text-slate-400 focus:border-cyan-500 focus:ring-cyan-500/30 h-12 rounded-full px-6"
+                  />
+                  <Button
+                    type="submit"
+                    disabled={isPending || status === "success"}
+                    size="lg"
+                    className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-semibold px-8 rounded-full shadow-2xl shadow-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 h-12"
+                  >
+                    {isPending
+                      ? "Joining..."
+                      : status === "success"
+                      ? "Joined!"
+                      : "Join Waitlist"}
+                  </Button>
+                </div>
+              </form>
 
               <p className="text-sm text-slate-400">
                 Limited spots available • Early bird pricing for members
@@ -45,8 +134,6 @@ export function WaitlistSection() {
           </div>
         </div>
       </section>
-
-      <WaitlistModal open={isOpen} onOpenChange={closeModal} />
     </>
   );
 }

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { SectionSeparator } from "./section-separator";
 
 const features = [
   {
@@ -34,7 +35,7 @@ const features = [
     description:
       "Sync ambient soundscapes and binaural beats to deepen entrainment.",
     badge: "Total immersion.",
-    image: "/images/phone-app-sound.png",
+    image: "/images/phone-app.png",
     step: 4,
   },
 ];
@@ -48,7 +49,6 @@ function FeatureStep({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isEven = index % 2 === 0;
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -58,7 +58,7 @@ function FeatureStep({
   const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
 
   const imageY = useSpring(
-    useTransform(scrollYProgress, [0, 1], isEven ? [100, -100] : [-100, 100]),
+    useTransform(scrollYProgress, [0, 1], isEven ? [50, -50] : [-50, 50]),
     springConfig
   );
   const imageOpacity = useSpring(
@@ -66,12 +66,12 @@ function FeatureStep({
     springConfig
   );
   const imageScale = useSpring(
-    useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]),
+    useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9]),
     springConfig
   );
 
   const textY = useSpring(
-    useTransform(scrollYProgress, [0, 1], isEven ? [-50, 50] : [50, -50]),
+    useTransform(scrollYProgress, [0, 1], isEven ? [-25, 25] : [25, -25]),
     springConfig
   );
   const textOpacity = useSpring(
@@ -84,28 +84,14 @@ function FeatureStep({
     springConfig
   );
   const badgeScale = useSpring(
-    useTransform(scrollYProgress, [0, 0.3, 0.5], [0.8, 0.8, 1]),
+    useTransform(scrollYProgress, [0, 0.3, 0.5], [0.9, 0.9, 1]),
     springConfig
   );
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (ref.current) {
-        const rect = ref.current.getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
-        const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-        setMousePosition({ x: x * 20, y: y * 20 });
-      }
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
 
   return (
     <div
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center px-4 md:px-6"
+      className="relative min-h-[90vh] flex items-center justify-center px-4 md:px-6"
       aria-label={`Feature ${feature.step}: ${feature.title}`}
       role="region"
     >
@@ -120,7 +106,6 @@ function FeatureStep({
               y: imageY,
               opacity: imageOpacity,
               scale: imageScale,
-              x: mousePosition.x,
             }}
             className={`relative ${!isEven ? "md:col-start-2" : ""}`}
           >
@@ -148,7 +133,6 @@ function FeatureStep({
             style={{
               y: textY,
               opacity: textOpacity,
-              x: -mousePosition.x * 0.5,
             }}
             className={`space-y-6 ${
               !isEven ? "md:col-start-1 md:row-start-1" : ""
@@ -223,88 +207,91 @@ export function FeaturesGrid() {
   }, [currentStep]);
 
   return (
-    <section
-      id="features"
-      ref={containerRef}
-      className="relative py-0 overflow-visible"
-      aria-label="Product features walkthrough"
-    >
-      <div className="fixed left-1/4 top-1/3 w-[800px] h-[800px] bg-gradient-radial from-purple-500/10 via-transparent to-transparent blur-[120px] pointer-events-none" />
-      <div className="fixed right-1/4 bottom-1/3 w-[800px] h-[800px] bg-gradient-radial from-cyan-500/10 via-transparent to-transparent blur-[120px] pointer-events-none" />
-
-      <motion.div
-        style={{ x: progressBarX, opacity: progressBarOpacity }}
-        className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-4 z-50"
+    <>
+      <SectionSeparator variant="gradient" />
+      <section
+        id="features"
+        ref={containerRef}
+        className="relative py-0 overflow-visible bg-[#0d0d2f]"
+        aria-label="Product features walkthrough"
       >
-        <div className="relative w-0.5 h-64 bg-white/10 rounded-full overflow-hidden">
+        <div className="fixed left-1/4 top-1/3 w-[800px] h-[800px] bg-gradient-radial from-purple-500/10 via-transparent to-transparent blur-[120px] pointer-events-none" />
+        <div className="fixed right-1/4 bottom-1/3 w-[800px] h-[800px] bg-gradient-radial from-cyan-500/10 via-transparent to-transparent blur-[120px] pointer-events-none" />
+
+        <motion.div
+          style={{ x: progressBarX, opacity: progressBarOpacity }}
+          className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-4 z-50"
+        >
+          <div className="relative w-0.5 h-64 bg-white/10 rounded-full overflow-hidden">
+            <motion.div
+              style={{ height: progressHeight }}
+              className="w-full bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full"
+            />
+          </div>
+
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col h-64 justify-between">
+            {[1, 2, 3, 4].map((step) => (
+              <motion.button
+                key={step}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  activeStep >= step
+                    ? "bg-gradient-to-br from-cyan-400 to-purple-500 shadow-lg shadow-cyan-500/50"
+                    : "bg-white/20"
+                }`}
+                whileHover={{ scale: 1.5 }}
+                onClick={() => {
+                  const element = document.querySelector(
+                    `[aria-label*="Feature ${step}"]`
+                  );
+                  element?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
+                }}
+                aria-label={`Jump to step ${step}`}
+              />
+            ))}
+          </div>
+
           <motion.div
-            style={{ height: progressHeight }}
-            className="w-full bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full"
-          />
+            className="mt-4 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <span className="text-xs font-medium text-white">
+              Step {activeStep} of 4
+            </span>
+          </motion.div>
+        </motion.div>
+
+        <div className="container mx-auto px-4 md:px-6 pt-32 pb-16 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto space-y-6"
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white text-balance tracking-tight">
+              Meet ThetaMask
+            </h2>
+            <p className="text-lg md:text-xl text-slate-300 leading-relaxed">
+              An immersive journey through precision technology designed for
+              your mind.
+            </p>
+          </motion.div>
         </div>
 
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col h-64 justify-between">
-          {[1, 2, 3, 4].map((step) => (
-            <motion.button
-              key={step}
-              className={`w-3 h-3 rounded-full transition-all ${
-                activeStep >= step
-                  ? "bg-gradient-to-br from-cyan-400 to-purple-500 shadow-lg shadow-cyan-500/50"
-                  : "bg-white/20"
-              }`}
-              whileHover={{ scale: 1.5 }}
-              onClick={() => {
-                const element = document.querySelector(
-                  `[aria-label*="Feature ${step}"]`
-                );
-                element?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "center",
-                });
-              }}
-              aria-label={`Jump to step ${step}`}
-            />
+        <div className="relative">
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent hidden md:block pointer-events-none" />
+
+          {features.map((feature, index) => (
+            <FeatureStep key={index} feature={feature} index={index} />
           ))}
         </div>
 
-        <motion.div
-          className="mt-4 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          <span className="text-xs font-medium text-white">
-            Step {activeStep} of 4
-          </span>
-        </motion.div>
-      </motion.div>
-
-      <div className="container mx-auto px-4 md:px-6 pt-24 pb-12 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="max-w-3xl mx-auto space-y-4"
-        >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white text-balance tracking-tight">
-            Meet ThetaMask
-          </h2>
-          <p className="text-lg md:text-xl text-slate-300 leading-relaxed">
-            An immersive journey through precision technology designed for your
-            mind.
-          </p>
-        </motion.div>
-      </div>
-
-      <div className="relative">
-        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent hidden md:block pointer-events-none" />
-
-        {features.map((feature, index) => (
-          <FeatureStep key={index} feature={feature} index={index} />
-        ))}
-      </div>
-
-      <div className="h-24" />
-    </section>
+        <div className="h-12" />
+      </section>
+    </>
   );
 }

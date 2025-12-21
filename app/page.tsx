@@ -9,6 +9,7 @@ import { WaitlistSection } from "@/components/waitlist-section";
 import { Footer } from "@/components/footer";
 import { StickyHeader } from "@/components/sticky-header";
 import { WaitlistProvider } from "@/components/waitlist-context";
+import { WaitlistModalWrapper } from "@/components/waitlist-modal-wrapper";
 import { ToastProvider } from "@/components/toast-context";
 import { ToastContainer } from "@/components/toast-container";
 
@@ -24,10 +25,11 @@ export default function HomePage() {
           <StatsSection />
           <FeaturesGrid />
           <Testimonials />
-          <FAQ />
           <WaitlistSection />
+          <FAQ />
           <Footer />
         </main>
+        <WaitlistModalWrapper />
         <ToastContainer />
       </WaitlistProvider>
     </ToastProvider>

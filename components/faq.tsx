@@ -1,9 +1,13 @@
+"use client";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { SectionSeparator } from "./section-separator";
+import { SectionLabel, SectionIcons } from "./section-label";
 
 const faqs = [
   {
@@ -35,38 +39,39 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="relative py-16 md:py-20 overflow-hidden">
+    <section
+      id="faq"
+      className="relative py-16 md:pt-24 md:pb-12 overflow-hidden bg-[#0b0b26]"
+    >
       <div className="absolute right-1/3 top-1/2 -translate-y-1/2 w-[600px] h-[500px] bg-gradient-radial from-purple-500/10 via-cyan-500/5 to-transparent blur-[100px]" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="p-10 md:p-20">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <h2 className="text-4xl md:text-5xl font-bold text-white text-balance">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-lg text-slate-300 leading-relaxed">
-              Everything you need to know about ThetaMask technology.
-            </p>
-          </div>
+      <div className="container mx-auto px-4 md:px-8 lg:px-12 relative z-10">
+        <div className="text-center mb-12 md:mb-16 space-y-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white text-balance">
+            FAQ
+          </h2>
+          <p className="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+            Everything you need to know about ThetaMask technology.
+          </p>
+        </div>
 
-          <div className="max-w-3xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-4">
-              {faqs.map((faq, index) => (
-                <AccordionItem
-                  key={index}
-                  value={`item-${index}`}
-                  className="border border-white/10 rounded-lg px-6 bg-[#0f0f11]/60 backdrop-blur-sm hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.1)] transition-all duration-300"
-                >
-                  <AccordionTrigger className="text-lg font-semibold text-white hover:text-cyan-400 text-left">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-slate-300 leading-relaxed pt-2">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
+        <div className="max-w-5xl mx-auto">
+          <Accordion type="single" collapsible className="space-y-3">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="border-b border-white/10 bg-transparent hover:bg-white/[0.02] transition-all duration-300"
+              >
+                <AccordionTrigger className="text-xl md:text-2xl font-medium text-white hover:text-cyan-400 text-left py-6 px-2 hover:no-underline">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-base md:text-lg text-slate-300 leading-relaxed pb-6 px-2">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </div>
     </section>
