@@ -1,12 +1,11 @@
-import { sql } from "@vercel/postgres";
+import { pool } from "@/lib/db";
 
 export async function addToWaitlist(email: string) {
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
-    throw new Error("Invalid email");
-  }
+  if (!/^\S+@\S+\.\S+$/.test(email)) throw new Error("Invalid email");
 
-  await sql`
-    insert into waitlist (email) values (${email.toLowerCase()})
-    on conflict (email) do nothing;
-  `;
+  await pool.query(
+    `insert into waitlist (email) values ($1)
+     on conflict (email) do nothing;`,
+    [email.toLowerCase()],
+  );
 }
