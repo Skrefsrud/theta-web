@@ -9,7 +9,7 @@ const features = [
   {
     title: "Precision LED Therapy",
     description:
-      "Medical-grade LEDs deliver precisely timed light pulses, tuned to your brain's rhythm.",
+      "Quality LEDs deliver precisely timed light pulses, strengthening your natural occuring slow brainwaves.",
     badge: "Your first session begins.",
     image: "/images/mask-inside-red.png",
     step: 1,
@@ -17,7 +17,7 @@ const features = [
   {
     title: "App-Controlled Sessions",
     description:
-      "Control your experience with our mobile app. Tap into tailored sessions for sleep, meditation, or peak focus.",
+      "Control your experience with our mobile app. Tap into tailored sessions for sleep, meditation, or relaxation.",
     badge: "You're in control.",
     image: "/images/phone-app.png",
     step: 2,
@@ -33,7 +33,7 @@ const features = [
   {
     title: "Audio Integration",
     description:
-      "Sync ambient soundscapes and binaural beats to deepen entrainment.",
+      "Sync ambient soundscapes, guided meditations for relaxation, and isochronic tones to deepen entrainment.",
     badge: "Total immersion.",
     image: "/images/phone-app.png",
     step: 4,
@@ -59,33 +59,33 @@ function FeatureStep({
 
   const imageY = useSpring(
     useTransform(scrollYProgress, [0, 1], isEven ? [50, -50] : [-50, 50]),
-    springConfig
+    springConfig,
   );
   const imageOpacity = useSpring(
     useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [0, 1, 1, 1, 0]),
-    springConfig
+    springConfig,
   );
   const imageScale = useSpring(
     useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9]),
-    springConfig
+    springConfig,
   );
 
   const textY = useSpring(
     useTransform(scrollYProgress, [0, 1], isEven ? [-25, 25] : [25, -25]),
-    springConfig
+    springConfig,
   );
   const textOpacity = useSpring(
     useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 1, 1, 1, 0]),
-    springConfig
+    springConfig,
   );
 
   const badgeOpacity = useSpring(
     useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [0, 0, 1, 1, 0]),
-    springConfig
+    springConfig,
   );
   const badgeScale = useSpring(
     useTransform(scrollYProgress, [0, 0.3, 0.5], [0.9, 0.9, 1]),
-    springConfig
+    springConfig,
   );
 
   return (
@@ -174,7 +174,7 @@ export function FeaturesGrid() {
     {
       stiffness: 100,
       damping: 30,
-    }
+    },
   );
 
   const progressBarX = useSpring(
@@ -182,7 +182,7 @@ export function FeaturesGrid() {
     {
       stiffness: 80,
       damping: 20,
-    }
+    },
   );
 
   const progressBarOpacity = useSpring(
@@ -190,13 +190,13 @@ export function FeaturesGrid() {
     {
       stiffness: 80,
       damping: 20,
-    }
+    },
   );
 
   const currentStep = useTransform(
     scrollYProgress,
     [0, 0.25, 0.5, 0.75, 1],
-    [1, 1, 2, 3, 4]
+    [1, 1, 2, 3, 4],
   );
   const [activeStep, setActiveStep] = useState(1);
 
@@ -241,7 +241,7 @@ export function FeaturesGrid() {
                 whileHover={{ scale: 1.5 }}
                 onClick={() => {
                   const element = document.querySelector(
-                    `[aria-label*="Feature ${step}"]`
+                    `[aria-label*="Feature ${step}"]`,
                   );
                   element?.scrollIntoView({
                     behavior: "smooth",

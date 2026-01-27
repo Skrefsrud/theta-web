@@ -38,13 +38,13 @@ export function HeroSection() {
                   Science-Backed
                 </span>
                 <br />
-                Light Therapy
+                Visual Stimulation
               </h1>
 
               <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                Experience brainwave entrainment through precision LED therapy.
-                ThetaMask helps you achieve deep relaxation, improved sleep, and
-                sharper focus.
+                Experience brainwave entrainment through precision light and
+                sound stimulation. ThetaMask helps you achieve better
+                relaxation, improved sleep, and deeper meditative states.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start">
@@ -57,7 +57,7 @@ export function HeroSection() {
                   <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500" />
                 </Button>
 
-                <p className="text-sm text-slate-400/90 italic">
+                <p className="text-sm text-slate-400/90 text-center italic">
                   Limited early access • Launching soon
                 </p>
               </div>

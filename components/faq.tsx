@@ -13,12 +13,12 @@ const faqs = [
   {
     question: "Is LED light therapy safe?",
     answer:
-      "Yes, ThetaMask uses FDA-compliant LEDs that emit safe, low-intensity light. The technology has been studied extensively and is non-invasive. Our LEDs operate at wavelengths proven safe for extended use.",
+      "Yes, ThetaMask uses LEDs that emit safe, low-intensity light. The technology has been studied extensively and is non-invasive. Our LEDs operate at wavelengths proven safe for extended use. However, individuals with photosensitive epilepsy or other light-triggered conditions should avoid use.",
   },
   {
     question: "How does brainwave entrainment work?",
     answer:
-      "Brainwave entrainment uses rhythmic stimuli (in our case, light pulses) to encourage your brain to synchronize with specific frequencies. When you want to relax, the mask pulses at theta frequencies (4-8 Hz), naturally guiding your brain into that state.",
+      "Brainwave entrainment uses rhythmic stimuli (in our case, light pulses) to guide your brain to synchronize with specific frequencies. Read more about the science behind it at our Science page.",
   },
   {
     question: "Who should not use ThetaMask?",
@@ -28,7 +28,7 @@ const faqs = [
   {
     question: "How long are typical sessions?",
     answer:
-      "Sessions range from 10-30 minutes depending on your goal. Sleep programs are typically 20 minutes, meditation sessions 15 minutes, and focus training 10-15 minutes. The app provides guided programs.",
+      "As little as 5 minutes can be effective, our beta users preferred 10-20 minute sessions. You can customize session lengths in the app to fit your schedule and needs.",
   },
   {
     question: "What is your return policy?",

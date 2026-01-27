@@ -14,11 +14,11 @@ const sections = [
     image: "/images/theta-sleeping.png",
   },
   {
-    problem: "Struggling to Meditate or Focus?",
+    problem: "Struggling to Meditate?",
     empathy:
       "Traditional meditation feels like a constant battle against distraction. Your mind wanders after just seconds.",
     solution:
-      "Brainwave entrainment through synchronized light patterns trains your brain to enter meditative states effortlessly, building focus over time.",
+      "Brainwave entrainment through synchronized light patterns trains your brain to enter meditative states, enabling an easier transition into deep meditation.",
     image: "/images/theta-meditating.png",
   },
 ];

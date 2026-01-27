@@ -22,18 +22,17 @@ const trustIndicators = [
   },
   {
     icon: Users,
-    text: "500+ Beta Users",
-    tooltip: "Real-world results from over 500 early adopters.",
+    text: "Tested with Beta Users",
+    tooltip: "Real-world results from early adopters.",
     details:
-      "Join hundreds of early users who have experienced the transformative effects of ThetaMask. Our beta community reports significant improvements in sleep quality, stress reduction, and mental clarity.",
+      "Join early users who have experienced the transformative effects of ThetaMask. Our beta community reports improvements in sleep quality, stress reduction, and mental clarity.",
   },
   {
     icon: Calendar,
-    text: "FDA-Compliant LEDs",
-    tooltip:
-      "Medical-grade components meeting safety and performance standards.",
+    text: "No adverse side effects",
+    tooltip: "Components meeting safety and performance standards.",
     details:
-      "ThetaMask uses FDA-compliant LEDs that meet rigorous safety and performance standards. Our medical-grade components are designed for extended use, ensuring both safety and effectiveness.",
+      "In our beta testing, no users reported adverse side effects. ThetaMask is designed with user safety in mind, users with epilepsy or other photosensitive medical conditions should not use ThetaMask.",
   },
 ];
 
