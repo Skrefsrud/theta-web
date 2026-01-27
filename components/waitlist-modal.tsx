@@ -19,7 +19,7 @@ import { useToast } from "./toast-context";
  *
  * Set to false before deploying to production!
  */
-const SIMULATE_MODE = true;
+const SIMULATE_MODE = false;
 
 interface WaitlistModalProps {
   open: boolean;
