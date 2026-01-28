@@ -3,11 +3,10 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { useWaitlist } from "./waitlist-context";
+import { JoinWaitlistButton } from "./join-waitlist-button";
 
 export function HeroSection() {
   const maskRef = useRef<HTMLDivElement>(null);
-  const { openModal } = useWaitlist();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,14 +47,12 @@ export function HeroSection() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start">
-                <Button
-                  onClick={openModal}
+                <JoinWaitlistButton
                   size="lg"
-                  className="group relative bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-semibold text-lg px-10 py-7 rounded-full shadow-2xl shadow-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 active:scale-100 border border-cyan-400/20"
+                  className="font-semibold text-lg px-10 py-7 rounded-full shadow-2xl shadow-cyan-500/30 transition-all duration-300 hover:scale-105 active:scale-100"
                 >
-                  <span className="relative z-10">Join the Waitlist</span>
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500" />
-                </Button>
+                  Join the Waitlist
+                </JoinWaitlistButton>
 
                 <p className="text-sm text-slate-400/90 text-center italic">
                   Limited early access • Launching soon

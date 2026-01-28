@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { JoinWaitlistButton } from "./join-waitlist-button";
 import { useWaitlist } from "./waitlist-context";
 
 export function StickyHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { openModal } = useWaitlist();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,21 +64,15 @@ export function StickyHeader() {
             >
               FAQ
             </button>
-            <button
-              onClick={openModal}
-              className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-6 py-2 rounded-full font-medium shadow-lg shadow-cyan-500/25 hover:shadow-xl hover:shadow-cyan-500/30 transition-all duration-300"
-            >
+            <JoinWaitlistButton className="px-6 py-2 rounded-full">
               Join Waitlist
-            </button>
+            </JoinWaitlistButton>
           </nav>
 
           {/* Mobile menu button - could be expanded later */}
-          <button
-            onClick={openModal}
-            className="md:hidden bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-4 py-2 rounded-full text-sm font-medium"
-          >
+          <JoinWaitlistButton className="md:hidden px-4 py-2 rounded-full text-sm">
             Join
-          </button>
+          </JoinWaitlistButton>
         </div>
       </div>
     </header>
