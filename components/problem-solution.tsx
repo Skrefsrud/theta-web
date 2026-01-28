@@ -43,7 +43,7 @@ export function ProblemSolution() {
                   } gap-12 items-start`}
                 >
                   {/* Text Content */}
-                  <div className="flex-1 space-y-6">
+                  <div className="flex-[1.2] space-y-6">
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent text-balance mb-8 drop-shadow-[0_2px_8px_rgba(6,182,212,0.3)]">
                       {section.problem}
                     </h2>
