@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { SectionSeparator } from "./section-separator";
+import { AudioRipples } from "./AudioRipples";
+import { isValidElement } from "react";
 
 const features = [
   {
@@ -35,7 +37,7 @@ const features = [
     description:
       "Sync ambient soundscapes, guided meditations for relaxation, and isochronic tones to deepen entrainment.",
     badge: "Total immersion.",
-    image: "/images/phone-app.png",
+    visual: <AudioRipples />,
     step: 4,
   },
 ];
@@ -111,13 +113,17 @@ function FeatureStep({
           >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-purple-500/10">
               <div className="relative aspect-[4/3]">
-                <Image
-                  src={feature.image || "/placeholder.svg"}
-                  alt={feature.title}
-                  fill
-                  className="object-cover"
-                  priority={index === 0}
-                />
+                {isValidElement(feature.visual) ? (
+                  feature.visual
+                ) : (
+                  <Image
+                    src={(feature as any).image || "/placeholder.svg"}
+                    alt={feature.title}
+                    fill
+                    className="object-cover"
+                    priority={index === 0}
+                  />
+                )}
               </div>
 
               <motion.div
