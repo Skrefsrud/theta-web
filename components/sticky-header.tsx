@@ -65,7 +65,7 @@ export function StickyHeader() {
               FAQ
             </button>
             <JoinWaitlistButton className="px-6 py-2 rounded-full">
-              Join Waitlist
+              Get early access
             </JoinWaitlistButton>
           </nav>
 

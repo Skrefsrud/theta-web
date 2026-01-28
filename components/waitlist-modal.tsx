@@ -5,7 +5,7 @@ import { useState, useTransition, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { X } from "lucide-react";
+import { X, Lock } from "lucide-react";
 import { submitWaitlistEmail } from "@/actions/waitlist";
 import { useToast } from "./toast-context";
 
@@ -126,15 +126,31 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
           {/* Header */}
           <div className="text-center space-y-3">
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-400 via-white to-purple-400 bg-clip-text text-transparent">
-              Join the Waitlist
+              Get Early Access
             </h2>
             <p className="text-slate-300 text-sm md:text-base">
-              Early access. Exclusive pricing. No spam — ever.
+              Early access + launch discount for the first 1000.
             </p>
           </div>
 
+          {/* Benefits */}
+          <ul className="space-y-2 text-slate-300 text-sm md:text-base text-left max-w-xs mx-auto">
+            <li className="flex items-center gap-3">
+              <span className="text-cyan-400">✓</span>
+              <span>Reserved launch discount</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="text-cyan-400">✓</span>
+              <span>Priority access when we launch</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="text-cyan-400">✓</span>
+              <span>1–2 updates/month (no spam)</span>
+            </li>
+          </ul>
+
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 pt-2">
             <div className="relative">
               <Input
                 ref={inputRef}
@@ -146,6 +162,9 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
                   status === "error" ? "animate-shake border-red-500/50" : ""
                 }`}
               />
+              <p className="text-xs text-slate-500 mt-2 ml-1">
+                Only email for news + launch discount. Unsubscribe anytime.
+              </p>
             </div>
 
             <Button
@@ -153,15 +172,21 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
               disabled={isPending}
               className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-semibold h-12 rounded-xl shadow-lg shadow-cyan-500/25 hover:shadow-xl hover:shadow-cyan-500/40 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isPending ? "Joining..." : "Join Waitlist"}
+              {isPending ? "Saving..." : "Reserve My Spot"}
             </Button>
           </form>
 
           {/* Status messages */}
           {status === "success" && (
-            <p className="text-cyan-400 font-medium text-center text-sm animate-in fade-in-0 slide-in-from-bottom-2 duration-300">
-              ✓ Thank you! You've been added to the waitlist.
-            </p>
+            <div className="text-center text-sm animate-in fade-in-0 slide-in-from-bottom-2 duration-300 space-y-1">
+              <p className="text-cyan-400 font-medium">
+                ✓ You're in! We'll email you when early access opens.
+              </p>
+              <p className="text-slate-300">
+                If you're in the first 1000, you'll get founder pricing at
+                launch.
+              </p>
+            </div>
           )}
           {status === "error" && (
             <p className="text-red-400 font-medium text-center text-sm animate-in fade-in-0 slide-in-from-bottom-2 duration-300">
@@ -170,9 +195,10 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
           )}
 
           {/* Footer text */}
-          <p className="text-xs text-slate-500 text-center">
-            Limited spots available • Unsubscribe anytime
-          </p>
+          <div className="flex items-center justify-center gap-2 text-xs text-slate-500 text-center pt-2">
+            <Lock className="w-3 h-3" />
+            <span>Privacy-first. We never share your email.</span>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -91,11 +91,13 @@ export function WaitlistSection() {
             <div className="text-center space-y-8 relative z-10">
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold text-white text-balance">
-                  Stay Ahead of the Curve
+                  Get Early Access
                 </h2>
                 <p className="text-lg text-slate-300 leading-relaxed">
-                  Secure your access today. Join our exclusive waitlist and be
-                  the first to experience the future of mindfulness technology.
+                  Early access + launch discount for the first 1000.
+                </p>
+                <p className="text-sm text-slate-400">
+                  Launch discount • Priority access • 1–2 emails/month
                 </p>
               </div>
 
@@ -119,17 +121,38 @@ export function WaitlistSection() {
                     className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-semibold px-8 rounded-full shadow-2xl shadow-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 h-12"
                   >
                     {isPending
-                      ? "Joining..."
+                      ? "Saving..."
                       : status === "success"
-                      ? "Joined!"
-                      : "Join Waitlist"}
+                        ? "Claimed!"
+                        : "Reserve my spot"}
                   </Button>
                 </div>
+                <p className="text-xs text-slate-500 pt-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="inline-block mr-1"
+                  >
+                    <rect
+                      width="18"
+                      height="11"
+                      x="3"
+                      y="11"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  Privacy-first. We never share your email.
+                </p>
               </form>
-
-              <p className="text-sm text-slate-400">
-                Limited spots available • Early bird pricing for members
-              </p>
             </div>
           </div>
         </div>

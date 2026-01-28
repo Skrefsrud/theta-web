@@ -6,7 +6,7 @@ import { SectionLabel, SectionIcons } from "./section-label";
 
 const sections = [
   {
-    problem: "Stressed and Wired at Bedtime?",
+    problem: "Stressed or Wired at Bedtime?",
     empathy:
       "Your mind races with thoughts from the day. Anxiety keeps you tossing and turning. Quality sleep feels impossible.",
     solution:

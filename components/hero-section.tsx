@@ -46,16 +46,16 @@ export function HeroSection() {
                 improved sleep, and deeper meditative states.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start">
+              <div className="flex flex-col sm:flex-row gap-4 items-center">
                 <JoinWaitlistButton
                   size="lg"
                   className="font-semibold text-lg px-10 py-7 rounded-full shadow-2xl shadow-cyan-500/30 transition-all duration-300 hover:scale-105 active:scale-100"
                 >
-                  Join the Waitlist
+                  Save My Spot!
                 </JoinWaitlistButton>
 
-                <p className="text-sm text-slate-400/90 text-center italic">
-                  Limited early access • Launching soon
+                <p className="text-sm text-slate-400/90 text-center sm:text-left">
+                  First 1000 get launch pricing • Launching soon
                 </p>
               </div>
             </div>
