@@ -41,9 +41,9 @@ export function HeroSection() {
               </h1>
 
               <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                Experience brainwave entrainment through precision light and
-                sound stimulation. ThetaMask helps you achieve better
-                relaxation, improved sleep, and deeper meditative states.
+                Experience brainwave entrainment through light and sound
+                stimulation. ThetaMask helps you achieve better relaxation,
+                improved sleep, and deeper meditative states.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start">

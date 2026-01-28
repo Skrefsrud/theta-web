@@ -23,7 +23,7 @@ const faqs = [
   {
     question: "Who should not use ThetaMask?",
     answer:
-      "ThetaMask should not be used by individuals with photosensitive epilepsy or those prone to seizures triggered by flashing lights. Pregnant women and children should consult a healthcare provider before use.",
+      "ThetaMask should not be used by individuals with photosensitive epilepsy or those prone to seizures triggered by flashing lights.",
   },
   {
     question: "How long are typical sessions?",
