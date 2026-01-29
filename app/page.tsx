@@ -1,7 +1,6 @@
 import { HeroSection } from "@/components/hero-section";
 import { TrustBar } from "@/components/trust-bar";
-import { ProblemSolution } from "@/components/problem-solution";
-import { FeaturesGrid } from "@/components/features-grid";
+import { BrainwaveStory } from "@/components/brainwave-story";
 import { FAQ } from "@/components/faq";
 import { WaitlistSection } from "@/components/waitlist-section";
 import { Footer } from "@/components/footer";
@@ -19,9 +18,7 @@ export default function HomePage() {
           <StickyHeader />
           <HeroSection />
           <TrustBar />
-          <ProblemSolution />
-
-          <FeaturesGrid />
+          <BrainwaveStory />
 
           <WaitlistSection />
           <FAQ />
