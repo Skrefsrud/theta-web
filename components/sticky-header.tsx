@@ -23,12 +23,30 @@ export function StickyHeader() {
     }
   };
 
+  const [isImmersive, setIsImmersive] = useState(false);
+
+  useEffect(() => {
+    const update = () =>
+      setIsImmersive(document.body.classList.contains("immersive"));
+    update();
+
+    const obs = new MutationObserver(update);
+    obs.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,box-shadow] duration-300 ${
-        isScrolled
-          ? "bg-[#0D1025]/80 backdrop-blur-2xl border-b border-white/10 shadow-xl"
-          : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-[opacity,transform,background,backdrop-filter,box-shadow] duration-300 ${
+        isImmersive
+          ? "opacity-0 pointer-events-none translate-y-[-6px] bg-transparent shadow-none border-transparent"
+          : isScrolled
+            ? "bg-[#0D1025]/80 backdrop-blur-2xl  shadow-xl"
+            : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4">

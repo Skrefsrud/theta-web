@@ -1,6 +1,6 @@
 import { HeroSection } from "@/components/hero-section";
 import { TrustBar } from "@/components/trust-bar";
-import { BrainwaveStory } from "@/components/brainwave-story";
+import { OverstimulationCalm } from "@/components/overstimulation-calm";
 import { FAQ } from "@/components/faq";
 import { WaitlistSection } from "@/components/waitlist-section";
 import { Footer } from "@/components/footer";
@@ -18,7 +18,8 @@ export default function HomePage() {
           <StickyHeader />
           <HeroSection />
           <TrustBar />
-          <BrainwaveStory />
+          <OverstimulationCalm />
+          <EntrainmentSync />
 
           <WaitlistSection />
           <FAQ />
