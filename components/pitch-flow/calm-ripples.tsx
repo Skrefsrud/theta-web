@@ -146,7 +146,7 @@ export function CalmRipples({
       // 1) Scroll-driven (smoothed) wavefront
       const t = waveTRef.current;
       if (t > 0.001) {
-        const r = maxR * easeOut(t);
+        const r = maxR * (0.5 - 0.5 * Math.cos(Math.PI * t));
         // Soft but readable line; fades a little as it expands
         const alpha = (1 - t) * 0.06 + 0.14;
 

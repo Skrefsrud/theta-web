@@ -1,6 +1,6 @@
 import { HeroSection } from "@/components/hero-section";
 import { TrustBar } from "@/components/trust-bar";
-import { OverstimulationCalm } from "@/components/overstimulation-calm";
+import { PitchFlow } from "@/components/pitch-flow";
 import { FAQ } from "@/components/faq";
 import { WaitlistSection } from "@/components/waitlist-section";
 import { Footer } from "@/components/footer";
@@ -9,6 +9,7 @@ import { WaitlistProvider } from "@/components/waitlist-context";
 import { WaitlistModalWrapper } from "@/components/waitlist-modal-wrapper";
 import { ToastProvider } from "@/components/toast-context";
 import { ToastContainer } from "@/components/toast-container";
+import { EntrainmentSync } from "@/components/entrainment-sync";
 
 export default function HomePage() {
   return (
@@ -18,8 +19,7 @@ export default function HomePage() {
           <StickyHeader />
           <HeroSection />
           <TrustBar />
-          <OverstimulationCalm />
-          <EntrainmentSync />
+          <PitchFlow />
 
           <WaitlistSection />
           <FAQ />

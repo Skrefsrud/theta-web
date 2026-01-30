@@ -13,6 +13,9 @@ function clamp(n: number, a: number, b: number) {
 function easeOut(t: number) {
   return 1 - Math.pow(1 - t, 2);
 }
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
 
 class Particle {
   x: number;
@@ -22,12 +25,13 @@ class Particle {
   vy: number;
   depth: number;
 
-  // outward impulse that decays
   ivx = 0;
   ivy = 0;
 
-  // whether wavefront already hit it
   hit = false;
+
+  // Each dot gets a stable personal “phase”
+  phase = Math.random() * Math.PI * 2;
 
   constructor(w: number, h: number, depth: number) {
     this.x = Math.random() * w;
@@ -49,7 +53,6 @@ class Particle {
     const ux = dx / dist;
     const uy = dy / dist;
 
-    // subtle but visible push
     const strength = 0.9 + 1.4 * (1 - clamp(dist / 900, 0, 1));
     const impulse = strength * this.depth * 2.2;
 
@@ -59,7 +62,7 @@ class Particle {
   }
 
   update(w: number, h: number, speedMul: number, turb: number, time: number) {
-    // gentle turbulence for “busy mind”
+    // Gentle turbulence for “busy mind”
     const nx = this.x / w;
     const ny = this.y / h;
     const t = time * 0.00012;
@@ -78,14 +81,14 @@ class Particle {
     this.vx = clamp(this.vx, -maxBase, maxBase);
     this.vy = clamp(this.vy, -maxBase, maxBase);
 
-    // decay impulse
+    // Decay wave impulse
     this.ivx *= 0.92;
     this.ivy *= 0.92;
 
     this.x += this.vx * speedMul + this.ivx;
     this.y += this.vy * speedMul + this.ivy;
 
-    // wrap
+    // Wrap
     if (this.x < -10) this.x = w + 10;
     if (this.x > w + 10) this.x = -10;
     if (this.y < -10) this.y = h + 10;
@@ -103,9 +106,13 @@ class Particle {
 export function NoiseLayer({
   scrollYProgress,
   waveT,
+  restlessT,
+  entrainT,
 }: {
   scrollYProgress: MotionValue<number>;
   waveT: MotionValue<number>;
+  restlessT: MotionValue<number>; // 1->0 through the wave transition
+  entrainT: MotionValue<number>; // 0->1 after wave
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particles = useRef<Particle[]>([]);
@@ -113,16 +120,33 @@ export function NoiseLayer({
 
   const speedMulRef = useRef(1.0);
   const turbRef = useRef(1.0);
-  const alphaRef = useRef(0.18);
+  const baseAlphaRef = useRef(0.18);
+
   const waveTRef = useRef(0);
+  const restlessRef = useRef(1);
+  const entrainRef = useRef(0);
 
-  useMotionValueEvent(waveT, "change", (v) => (waveTRef.current = v));
+  useMotionValueEvent(
+    waveT,
+    "change",
+    (v) => (waveTRef.current = clamp(v, 0, 1)),
+  );
+  useMotionValueEvent(
+    restlessT,
+    "change",
+    (v) => (restlessRef.current = clamp(v, 0, 1)),
+  );
+  useMotionValueEvent(
+    entrainT,
+    "change",
+    (v) => (entrainRef.current = clamp(v, 0, 1)),
+  );
 
+  // Keep some slow movement always; restlessness controls how “busy” it feels
   useMotionValueEvent(scrollYProgress, "change", (p) => {
-    const t = clamp(p / 0.65, 0, 1);
-    speedMulRef.current = 1.35 + (0.3 - 1.35) * t;
-    turbRef.current = 1.35 + (0.08 - 1.35) * t;
-    alphaRef.current = 0.19 + (0.09 - 0.19) * t;
+    const t = clamp(p, 0, 1);
+    speedMulRef.current = 1.05 + (0.35 - 1.05) * clamp(t / 0.7, 0, 1);
+    baseAlphaRef.current = 0.19 + (0.09 - 0.19) * clamp(t / 0.85, 0, 1);
   });
 
   useEffect(() => {
@@ -132,10 +156,15 @@ export function NoiseLayer({
     if (!ctx) return;
 
     const build = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
       const w = canvas.width;
       const h = canvas.height;
 
-      const count = Math.min(650, Math.max(380, Math.floor((w * h) / 5200)));
+      // Keep stable-ish density
+      const count = Math.min(650, Math.max(420, Math.floor((w * h) / 5200)));
+
       const arr: Particle[] = [];
       for (let i = 0; i < count; i++) {
         const r = Math.random();
@@ -145,59 +174,70 @@ export function NoiseLayer({
       particles.current = arr;
     };
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      build();
-    };
+    const resize = () => build();
 
-    resize();
+    build();
     window.addEventListener("resize", resize);
 
     let raf = 0;
 
     const renderStatic = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.current.forEach((p) => p.draw(ctx, 0.14));
+      particles.current.forEach((p) => p.draw(ctx, 0.12));
     };
 
     const loop = (time: number) => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const mul = speedMulRef.current;
-      const turb = turbRef.current;
-      const alpha = alphaRef.current;
-
       const w = canvas.width;
       const h = canvas.height;
       const cx = w / 2;
       const cy = h / 2;
 
-      // Must match CalmRipples/Thoughts maxR
-      const maxR = Math.hypot(w, h) * 0.6;
-      const wt = clamp(waveTRef.current, 0, 1);
-      const waveR = maxR * easeOut(wt);
+      ctx.clearRect(0, 0, w, h);
 
-      // When wave is active, push particles as the wavefront reaches them
+      const wt = waveTRef.current;
+      const rRestless = restlessRef.current; // 1 => noisy
+      const e = entrainRef.current; // 1 => synced
+
+      // Turbulence: high when restless, low when calm/entrained
+      turbRef.current = lerp(1.35, 0.05, clamp(1 - rRestless + e * 0.8, 0, 1));
+
+      const mul = speedMulRef.current;
+      const turb = turbRef.current;
+      const baseAlpha = baseAlphaRef.current;
+
+      // Must match your other wavefront maxR
+      const maxR = Math.hypot(w, h) * 0.6;
+      const waveR = maxR * easeOut(wt);
       const hitWidth = 70;
 
+      // Entrainment pulse: slow “breath-like” rhythm (visual metaphor)
+      const pulseHz = 0.55;
+      const pulse = Math.sin((time / 1000) * Math.PI * 2 * pulseHz) * 0.5 + 0.5; // 0..1
+
       for (const p of particles.current) {
-        if (!p.hit && wt > 0) {
+        // Wave hit pushes particles outward (only during wave)
+        if (!p.hit && wt > 0.001) {
           const dx = p.x - cx;
           const dy = p.y - cy;
           const dist = Math.hypot(dx, dy);
-          if (dist < waveR + hitWidth) {
-            p.applyWavePush(cx, cy);
-          }
+          if (dist < waveR + hitWidth) p.applyWavePush(cx, cy);
         }
 
-        p.update(w, h, mul, turb, time);
-        p.draw(ctx, alpha);
-      }
+        // Reset hit if user scrolls back up before wave starts
+        if (wt < 0.02) p.hit = false;
 
-      // Reset hit flags if wave is reset (user scrolls back up)
-      if (wt < 0.02) {
-        for (const p of particles.current) p.hit = false;
+        p.update(w, h, mul, turb, time);
+
+        // Alpha behavior:
+        // - Restless: slightly noisier variance
+        // - Entrainment: more coherent pulsing (subtle)
+        const noisyVar = 0.75 + Math.random() * 0.45; // 0.75..1.2
+        const coherent = 0.85 + 0.35 * pulse; // 0.85..1.2
+
+        const alphaMul = lerp(noisyVar, coherent, e);
+        const alpha = baseAlpha * alphaMul * (0.9 + 0.1 * (1 - rRestless));
+
+        p.draw(ctx, alpha);
       }
 
       raf = requestAnimationFrame(loop);
