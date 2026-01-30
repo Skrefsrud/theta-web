@@ -98,7 +98,7 @@ export function CalmRipples({
     let last = performance.now();
 
     // Ambient ripple spawn controls
-    let nextSpawnIn = 3200; // ms
+    let nextSpawnIn = 4200; // ms
     let sinceSpawn = 0;
 
     const spawnAmbient = () => {
@@ -114,7 +114,7 @@ export function CalmRipples({
 
       ripples.current.push(new Ripple(x, y, maxRadius, duration));
 
-      nextSpawnIn = 2800 + Math.random() * 2400;
+      nextSpawnIn = 2800;
       sinceSpawn = 0;
     };
 
