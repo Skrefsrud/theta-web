@@ -15,9 +15,12 @@ import { IntrusiveThoughts } from "./intrusive-thoughts";
 import { CalmRipples } from "./calm-ripples";
 import { PitchController } from "./pitch-controller";
 import { SectionSeparator } from "../section-separator";
+import { SHARED } from "./pitch-flow.shared";
 
 export function PitchFlow() {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const ambientT = useMotionValue(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -72,7 +75,7 @@ export function PitchFlow() {
 
       // Plays to completion regardless of scrolling
       waveControlsRef.current = animate(waveT, 1, {
-        duration: 3.2, // tune to match your calm ripple feel
+        duration: SHARED.WAVE_DURATION_S, // tune to match your calm ripple feel
         ease: "linear",
       });
     }
@@ -131,6 +134,7 @@ export function PitchFlow() {
               waveT={waveT as MotionValue<number>}
               restlessT={restlessT as MotionValue<number>}
               entrainT={entrainT as MotionValue<number>}
+              ambientT={ambientT as MotionValue<number>}
             />
           </div>
 
@@ -154,6 +158,7 @@ export function PitchFlow() {
               scrollYProgress={scrollYProgress as MotionValue<number>}
               waveT={waveT as MotionValue<number>}
               calmOpacity={calmOpacity as MotionValue<number>}
+              ambientT={ambientT as MotionValue<number>}
             />
           </motion.div>
 

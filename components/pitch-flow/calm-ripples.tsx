@@ -1,4 +1,3 @@
-// calm-ripples.tsx
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -7,6 +6,51 @@ import {
   useMotionValueEvent,
   type MotionValue,
 } from "framer-motion";
+import {
+  clamp,
+  getCenter,
+  getMaxWaveRadius,
+  setupCanvasToViewport,
+  waveRadiusProgress,
+  SHARED,
+} from "./pitch-flow.shared";
+
+/**
+ * =========================
+ * TUNING CONTROLS (RIPPLES)
+ * =========================
+ */
+const RIPPLES = {
+  // Main wavefront stroke
+  MAIN_LINE_WIDTH: 1,
+  MAIN_ALPHA_MIN: 0.14,
+  MAIN_ALPHA_FADE: 0.06,
+
+  // Color
+  CYAN_R: 160,
+  CYAN_G: 220,
+  CYAN_B: 255,
+
+  // Ambient ripple behavior
+  AMBIENT_ENABLED: true,
+
+  /**
+   * Constant spacing:
+   * main-start -> first ambient == interval
+   * ambient -> ambient == interval
+   */
+  AMBIENT_INTERVAL_MS: SHARED.WAVE_DURATION_S * 1000,
+
+  // Ambient ripple stroke
+  AMBIENT_LINE_WIDTH: 1,
+  AMBIENT_ALPHA_MULT: 0.16,
+};
+
+type AmbientState = {
+  startTime: number; // absolute ms timestamp
+  durationMs: number;
+  maxRadius: number;
+};
 
 class Ripple {
   x: number;
@@ -28,14 +72,14 @@ class Ripple {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    const ease = 1 - Math.pow(1 - this.t, 2); // easeOut
+    const ease = waveRadiusProgress(this.t);
     const radius = this.maxRadius * ease;
-    const alpha = (1 - this.t) * 0.16;
+    const alpha = (1 - this.t) * RIPPLES.AMBIENT_ALPHA_MULT;
 
     ctx.beginPath();
     ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(160, 220, 255, ${alpha})`;
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = `rgba(${RIPPLES.CYAN_R}, ${RIPPLES.CYAN_G}, ${RIPPLES.CYAN_B}, ${alpha})`;
+    ctx.lineWidth = RIPPLES.AMBIENT_LINE_WIDTH;
     ctx.stroke();
   }
 
@@ -44,22 +88,16 @@ class Ripple {
   }
 }
 
-function easeOut(t: number) {
-  return 1 - Math.pow(1 - t, 2);
-}
-
-function clamp(n: number, a: number, b: number) {
-  return Math.max(a, Math.min(b, n));
-}
-
 export function CalmRipples({
-  scrollYProgress, // kept for API consistency; not strictly required here
-  waveT, // IMPORTANT: this is the already-smoothed wave (0..1)
+  scrollYProgress, // kept for API consistency
+  waveT,
   calmOpacity,
+  ambientT,
 }: {
   scrollYProgress: MotionValue<number>;
   waveT: MotionValue<number>;
   calmOpacity: MotionValue<number>;
+  ambientT: MotionValue<number>;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ripples = useRef<Ripple[]>([]);
@@ -69,16 +107,15 @@ export function CalmRipples({
   const waveTRef = useRef(0);
   const calmOpacityRef = useRef(0);
 
-  useMotionValueEvent(
-    waveT,
-    "change",
-    (v) => (waveTRef.current = clamp(v, 0, 1)),
-  );
-  useMotionValueEvent(
-    calmOpacity,
-    "change",
-    (v) => (calmOpacityRef.current = v),
-  );
+  // Single active ambient ripple state (drives ambientT for dots)
+  const ambientRef = useRef<AmbientState | null>(null);
+
+  useMotionValueEvent(waveT, "change", (v) => {
+    waveTRef.current = clamp(v, 0, 1);
+  });
+  useMotionValueEvent(calmOpacity, "change", (v) => {
+    calmOpacityRef.current = v;
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -87,9 +124,13 @@ export function CalmRipples({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const size = setupCanvasToViewport(canvas, ctx);
+      w = size.w;
+      h = size.h;
     };
 
     resize();
@@ -97,34 +138,36 @@ export function CalmRipples({
 
     let last = performance.now();
 
-    // Ambient ripple spawn controls
-    let nextSpawnIn = 4200; // ms
-    let sinceSpawn = 0;
+    // ---- Metronome state ----
+    let metronomeArmed = false;
+    let metronomeStartAt = 0; // when main wave started
+    let nextTickAt = 0; // absolute time for next ambient spawn
+    let prevWaveT = 0;
+    let prevCalmOn = false;
 
-    const spawnAmbient = () => {
-      const w = canvas.width;
-      const h = canvas.height;
+    const durationMs = SHARED.WAVE_DURATION_S * 1000;
 
-      // Keep ambient centered for “still pond” vibe
-      const x = w / 2;
-      const y = h / 2;
+    const spawnAmbientAt = (tickTime: number) => {
+      const { cx, cy } = getCenter(w, h);
+      const maxRadius = getMaxWaveRadius(w, h);
 
-      const maxRadius = Math.min(w, h) * (0.6 + Math.random() * 0.2);
-      const duration = 4200 + Math.random() * 1800;
+      // Keep ONE visual ripple at a time for perfect dot sync
+      ripples.current = [new Ripple(cx, cy, maxRadius, durationMs)];
 
-      ripples.current.push(new Ripple(x, y, maxRadius, duration));
-
-      nextSpawnIn = 2800;
-      sinceSpawn = 0;
+      ambientRef.current = {
+        startTime: tickTime,
+        durationMs,
+        maxRadius,
+      };
+      ambientT.set(0);
     };
 
     const renderStatic = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const w = canvas.width;
-      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      const { cx, cy } = getCenter(w, h);
       ctx.beginPath();
-      ctx.arc(w / 2, h / 2, Math.min(w, h) * 0.22, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(160, 220, 255, 0.08)";
+      ctx.arc(cx, cy, Math.min(w, h) * 0.22, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${RIPPLES.CYAN_R}, ${RIPPLES.CYAN_G}, ${RIPPLES.CYAN_B}, 0.08)`;
       ctx.lineWidth = 1;
       ctx.stroke();
     };
@@ -133,61 +176,106 @@ export function CalmRipples({
       const dt = time - last;
       last = time;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, w, h);
 
-      const w = canvas.width;
-      const h = canvas.height;
-      const cx = w / 2;
-      const cy = h / 2;
+      const { cx, cy } = getCenter(w, h);
+      const maxR = getMaxWaveRadius(w, h);
 
-      // Must match NoiseLayer/Thoughts maxR for wave-hit sync
-      const maxR = Math.hypot(w, h) * 0.6;
-
-      // 1) Scroll-driven (smoothed) wavefront
-      const t = waveTRef.current;
-      if (t > 0.001) {
-        const r = maxR * (0.5 - 0.5 * Math.cos(Math.PI * t));
-        // Soft but readable line; fades a little as it expands
-        const alpha = (1 - t) * 0.06 + 0.14;
+      // 1) Draw main wavefront
+      const tMain = waveTRef.current;
+      if (tMain > 0.001) {
+        const r = maxR * waveRadiusProgress(tMain);
+        const alpha =
+          (1 - tMain) * RIPPLES.MAIN_ALPHA_FADE + RIPPLES.MAIN_ALPHA_MIN;
 
         ctx.beginPath();
         ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(160, 220, 255, ${alpha})`;
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = `rgba(${RIPPLES.CYAN_R}, ${RIPPLES.CYAN_G}, ${RIPPLES.CYAN_B}, ${alpha})`;
+        ctx.lineWidth = RIPPLES.MAIN_LINE_WIDTH;
         ctx.stroke();
       }
 
-      // 2) Ambient calm ripples (only after calm fades in)
-      const calm = calmOpacityRef.current;
-      if (calm > 0.15) {
-        sinceSpawn += dt;
-        if (sinceSpawn >= nextSpawnIn) spawnAmbient();
-      } else {
-        // Before calm: keep ambient empty so the scroll wave is the hero moment
-        ripples.current = [];
+      // 2) Arm metronome exactly when main wave begins (rising edge)
+      const eps = 0.001;
+      const startedNow = prevWaveT <= eps && tMain > eps;
+      prevWaveT = tMain;
+
+      if (startedNow) {
+        metronomeArmed = true;
+        metronomeStartAt = time;
+        nextTickAt = metronomeStartAt + RIPPLES.AMBIENT_INTERVAL_MS;
       }
 
+      // If wave is rewound/reset to ~0, reset everything (you support replay)
+      if (metronomeArmed && tMain <= eps) {
+        metronomeArmed = false;
+        metronomeStartAt = 0;
+        nextTickAt = 0;
+        prevCalmOn = false;
+
+        ripples.current = [];
+        ambientRef.current = null;
+        ambientT.set(0);
+      }
+
+      // 3) Calm gating
+      const calm = calmOpacityRef.current;
+      const calmOn = RIPPLES.AMBIENT_ENABLED && calm > 0.15;
+
+      // Key fix:
+      // When calm turns ON, we realign nextTickAt so it is NEVER in the past.
+      if (metronomeArmed && calmOn && !prevCalmOn) {
+        const interval = RIPPLES.AMBIENT_INTERVAL_MS;
+        const elapsed = time - metronomeStartAt;
+        const k = Math.floor(elapsed / interval) + 1; // next tick strictly in future
+        nextTickAt = metronomeStartAt + k * interval;
+      }
+      prevCalmOn = calmOn;
+
+      // 4) Spawn ambient on schedule (no drift, no past-start bug)
+      if (metronomeArmed && calmOn) {
+        const hasActiveAmbient = !!ambientRef.current;
+
+        if (!hasActiveAmbient && time >= nextTickAt) {
+          // Use the scheduled tick time (very close to "time"), but never older than 1 frame.
+          const tickTime = Math.max(nextTickAt, time - 16);
+          spawnAmbientAt(tickTime);
+
+          // Advance by exact interval (prevents jitter)
+          nextTickAt += RIPPLES.AMBIENT_INTERVAL_MS;
+        }
+      }
+
+      // 5) Drive ambientT for dots (0..1 while active)
+      if (ambientRef.current) {
+        const a = ambientRef.current;
+        const t = clamp((time - a.startTime) / a.durationMs, 0, 1);
+        ambientT.set(t);
+
+        if (t >= 1) {
+          ambientRef.current = null;
+          ambientT.set(0);
+        }
+      }
+
+      // Draw ambient visuals
       ripples.current.forEach((r) => {
         r.update(dt);
         r.draw(ctx);
       });
-
       ripples.current = ripples.current.filter((r) => !r.done());
 
       rafRef.current = requestAnimationFrame(loop);
     };
 
-    if (reducedMotion) {
-      renderStatic();
-    } else {
-      rafRef.current = requestAnimationFrame(loop);
-    }
+    if (reducedMotion) renderStatic();
+    else rafRef.current = requestAnimationFrame(loop);
 
     return () => {
       window.removeEventListener("resize", resize);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, ambientT]);
 
   return (
     <canvas

@@ -7,6 +7,11 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import {
+  clamp as clampShared,
+  getMaxWaveRadius,
+  waveRadiusProgress,
+} from "./pitch-flow.shared";
 
 const THOUGHTS = [
   "one more thing…",
@@ -25,14 +30,6 @@ const ANCHORS = [
   { x: 0.18, y: 0.78 },
   { x: 0.78, y: 0.82 },
 ];
-
-function clamp(n: number, a: number, b: number) {
-  return Math.max(a, Math.min(b, n));
-}
-
-function easeOut(t: number) {
-  return 1 - Math.pow(1 - t, 2);
-}
 
 export function IntrusiveThoughts({
   scrollYProgress,
@@ -78,25 +75,22 @@ export function IntrusiveThoughts({
   return (
     <motion.div className="absolute inset-0" aria-hidden="true">
       {items.map((t) => {
-        // Compute wave radius from waveT
-        // Must match CalmRipples maxR to sync perfectly:
-        const maxR = Math.hypot(vp.w, vp.h) * 0.6;
-
-        // hitWidth = how “thick” the wavefront feels.
-        // Smaller = snappier push.
+        // MUST match NoiseLayer + CalmRipples:
+        const maxR = getMaxWaveRadius(vp.w, vp.h);
         const hitWidth = 90;
 
-        // hit ramps up when wave radius passes thought distance
+        // Hit ramps when wave radius passes thought distance
         const hit = useTransform(waveT, (wt) => {
           if (reducedMotion) return 0;
-          const r = maxR * easeOut(clamp(wt, 0, 1));
-          return clamp((r - t.dist) / hitWidth, 0, 1);
+          const r = maxR * waveRadiusProgress(clampShared(wt, 0, 1));
+          return clampShared((r - t.dist) / hitWidth, 0, 1);
         });
 
-        // Push strength: bigger for closer thoughts (feels physical)
+        // Push strength: stronger for closer thoughts
         const strength = useTransform(hit, (h) => {
-          const proximity = 1 - clamp(t.dist / 900, 0, 1);
-          return (140 + 220 * proximity) * easeOut(h);
+          const proximity = 1 - clampShared(t.dist / 900, 0, 1);
+          // Keep your feel
+          return (140 + 220 * proximity) * h;
         });
 
         const xPush = useTransform(strength, (s) => t.ux * s);
