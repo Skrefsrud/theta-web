@@ -2,27 +2,38 @@
 
 export type WaveRadiusEasing = "linear" | "easeInOutCos";
 
-export const SHARED: {
-  CENTER_MODE: "screen";
-  MAX_R_DIAGONAL_MULT: number; // used by ALL waves
-  WAVE_RADIUS_EASING: WaveRadiusEasing; // used by ALL waves
-  WAVE_DURATION_S: number;
-} = {
-  CENTER_MODE: "screen",
-  MAX_R_DIAGONAL_MULT: 0.82, // reaches edges/corners on most screens
-  WAVE_RADIUS_EASING: "easeInOutCos",
-  WAVE_DURATION_S: 5.6,
+/**
+ * =========================
+ * SHARED TUNING CONTROLS
+ * =========================
+ * Keep these at the top so it’s obvious what changes what.
+ */
+export const SHARED = {
+  // Geometry
+  MAX_R_DIAGONAL_MULT: 0.82, // radius reaches screen corners
+  WAVE_RADIUS_EASING: "easeInOutCos" as WaveRadiusEasing,
+
+  // Timing
+  WAVE_DURATION_S: 5.6, // how long each wave travels
+  WAVE_INTERVAL_S: 5.6, // time between wave STARTS (set equal for back-to-back)
 };
 
 export function clamp(n: number, a: number, b: number) {
   return Math.max(a, Math.min(b, n));
 }
 
-export function easeInOutCos(t: number) {
-  return 0.5 - 0.5 * Math.cos(Math.PI * t);
+export function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
 }
 
-// t01 (0..1) -> radius progress (0..1)
+export function easeInOutCos(t: number) {
+  return 0.5 - 0.5 * Math.cos(Math.PI * clamp(t, 0, 1));
+}
+
+/**
+ * Convert wave progress (0..1) to "radius progress" (0..1).
+ * This MUST be used by both the ring and the dots to stay synced.
+ */
 export function waveRadiusProgress(t01: number) {
   const t = clamp(t01, 0, 1);
   return SHARED.WAVE_RADIUS_EASING === "linear" ? t : easeInOutCos(t);
@@ -36,7 +47,11 @@ export function getCenter(w: number, h: number) {
   return { cx: w / 2, cy: h / 2 };
 }
 
-// DPR-safe canvas setup: draw in CSS pixels, render crisp.
+/**
+ * DPR-safe canvas setup:
+ * keeps drawing in CSS px while rendering crisp on retina.
+ * Use this in BOTH canvases.
+ */
 export function setupCanvasToViewport(
   canvas: HTMLCanvasElement,
   ctx: CanvasRenderingContext2D,

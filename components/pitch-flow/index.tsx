@@ -15,30 +15,26 @@ import { IntrusiveThoughts } from "./intrusive-thoughts";
 import { CalmRipples } from "./calm-ripples";
 import { PitchController } from "./pitch-controller";
 import { SectionSeparator } from "../section-separator";
-import { SHARED } from "./pitch-flow.shared";
+import { SHARED, clamp } from "./pitch-flow.shared";
 
 export function PitchFlow() {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const ambientT = useMotionValue(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  // 1) Toggle immersive class based on scrollYProgress
+  // Immersive toggle
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     const active = v > 0 && v < 1;
     document.body.classList.toggle("immersive", active);
   });
 
-  // 2) Cleanup on unmount (route change / fast nav)
   useEffect(() => {
     return () => document.body.classList.remove("immersive");
   }, []);
 
-  // Background deepens slightly through the whole pitch
   const backgroundColor = useTransform(
     scrollYProgress,
     [0, 1],
@@ -46,75 +42,124 @@ export function PitchFlow() {
   );
 
   /**
-   * MASTER TIMELINE (single continuous section)
-   * 0.00–0.35: Restless mind (thoughts + noisy dots)
-   * 0.35–0.60: Wave push moment (triggered by scroll, completes on its own)
-   * 0.60–0.85: Entrainment explanation (same dots, now syncing)
-   * 0.85–1.00: Bridge line / settle
+   * =========================
+   * STORY WAVE (narrative)
+   * =========================
+   * This runs ONCE (scroll-triggered) and drives the phase text / calm transition.
    */
+  const storyWaveT = useMotionValue(0);
+  const storyHasPlayedRef = useRef(false);
+  const storyControlsRef = useRef<ReturnType<typeof animate> | null>(null);
 
   /**
-   * WAVE BEHAVIOR (ballistic)
-   * - Scroll triggers the wave once you pass a point.
-   * - Once triggered, it runs 0->1 at a fixed duration, independent of scroll.
-   * - Optional: reset if user scrolls back up above the trigger region.
+   * =========================
+   * WAVE CLOCK (visual truth)
+   * =========================
+   * Single shared wave that:
+   * - starts when story wave starts
+   * - then runs on a fixed metronome interval
+   * - used by BOTH ring + dots so they always stay synced.
    */
-  const waveT = useMotionValue(0);
-  const waveHasPlayedRef = useRef(false);
-  const waveControlsRef = useRef<ReturnType<typeof animate> | null>(null);
+  const waveClockT = useMotionValue(0); // 0..1 for current wave (0 when idle)
+  const waveIndex = useMotionValue(0); // increments each wave start
+  const waveActive = useMotionValue(0); // 1 when a wave is travelling, else 0
 
+  const metronome = useRef({
+    armed: false,
+    currentStart: 0,
+    nextStart: 0,
+    intervalMs: SHARED.WAVE_INTERVAL_S * 1000,
+    durationMs: SHARED.WAVE_DURATION_S * 1000,
+    lastTime: 0,
+  });
+
+  // Start story wave on scroll
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     const triggerPoint = 0.35;
 
-    // Trigger wave once
-    if (!waveHasPlayedRef.current && v >= triggerPoint) {
-      waveHasPlayedRef.current = true;
+    if (!storyHasPlayedRef.current && v >= triggerPoint) {
+      storyHasPlayedRef.current = true;
 
-      waveControlsRef.current?.stop();
-      waveT.set(0);
-
-      // Plays to completion regardless of scrolling
-      waveControlsRef.current = animate(waveT, 1, {
-        duration: SHARED.WAVE_DURATION_S, // tune to match your calm ripple feel
+      // 1) Story wave animation (phases)
+      storyControlsRef.current?.stop();
+      storyWaveT.set(0);
+      storyControlsRef.current = animate(storyWaveT, 1, {
+        duration: SHARED.WAVE_DURATION_S,
         ease: "linear",
       });
+
+      // 2) Arm metronome + start wave #1 NOW (same moment)
+      const now = performance.now();
+      metronome.current.armed = true;
+      metronome.current.currentStart = now;
+      metronome.current.nextStart = now + metronome.current.intervalMs;
+      metronome.current.lastTime = now;
+
+      waveIndex.set(1);
+      waveActive.set(1);
+      waveClockT.set(0);
     }
 
-    // Optional: allow replay if user scrolls back up enough
-    if (v < triggerPoint - 0.06 && waveHasPlayedRef.current) {
-      waveHasPlayedRef.current = false;
-      waveControlsRef.current?.stop();
-      waveT.set(0);
+    // Optional replay if scrolling back up
+    if (v < triggerPoint - 0.06 && storyHasPlayedRef.current) {
+      storyHasPlayedRef.current = false;
+      storyControlsRef.current?.stop();
+      storyWaveT.set(0);
+
+      metronome.current.armed = false;
+      waveIndex.set(0);
+      waveActive.set(0);
+      waveClockT.set(0);
     }
   });
 
-  // Cleanup any running animation on unmount
+  // Drive WaveClock on RAF (stable timing)
   useEffect(() => {
-    return () => {
-      waveControlsRef.current?.stop();
+    let raf = 0;
+
+    const tick = () => {
+      const now = performance.now();
+      const m = metronome.current;
+
+      if (m.armed) {
+        // Start next wave(s) exactly on schedule (no drift)
+        while (now >= m.nextStart) {
+          m.currentStart = m.nextStart;
+          m.nextStart += m.intervalMs;
+          waveIndex.set(waveIndex.get() + 1);
+        }
+
+        // Progress within current wave
+        const t = clamp((now - m.currentStart) / m.durationMs, 0, 1);
+        waveClockT.set(t);
+
+        // Active only while travelling
+        waveActive.set(t > 0 && t < 1 ? 1 : 0);
+      }
+
+      raf = requestAnimationFrame(tick);
     };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [waveClockT, waveIndex, waveActive]);
+
+  // Cleanup
+  useEffect(() => {
+    return () => storyControlsRef.current?.stop();
   }, []);
 
   /**
-   * Phase driving:
-   * Now that wave is autonomous, drive "restless" and "entrain" from waveT,
-   * so visuals stay coherent regardless of scroll pauses.
+   * =========================
+   * Phase driving (story)
+   * =========================
    */
+  const restlessT = useTransform(storyWaveT, [0, 0.9], [1, 0]);
+  const entrainT = useTransform(storyWaveT, [0.65, 1], [0, 1]);
+  const thoughtsOpacity = useTransform(storyWaveT, [0, 0.25, 0.55], [1, 1, 0]);
 
-  // Restless (1) -> Calm (0) through the wave completion
-  const restlessT = useTransform(waveT, [0, 0.9], [1, 0]);
-
-  // Entrainment starts after wave has substantially progressed
-  const entrainT = useTransform(waveT, [0.65, 1], [0, 1]);
-
-  // Thoughts remain until shortly after wave begins; actual push-away is wavefront-based in the component
-  const thoughtsOpacity = useTransform(waveT, [0, 0.25, 0.55], [1, 1, 0]);
-
-  // Ripples visibility (keep the layer alive through the pitch)
   const waveOpacity = useTransform(scrollYProgress, [0.28, 0.36, 1], [0, 1, 1]);
-
-  // Ambient calm ripples begin after the wave has moved well into calm
-  const calmOpacity = useTransform(waveT, [0.55, 0.9], [0, 1]);
+  const calmOpacity = useTransform(storyWaveT, [0.55, 0.9], [0, 1]);
 
   return (
     <>
@@ -127,42 +172,43 @@ export function PitchFlow() {
         aria-label="Pitch flow: problem to solution"
       >
         <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
-          {/* DOT FIELD (persists across entire story; behavior changes by phase) */}
+          {/* DOT FIELD */}
           <div className="absolute inset-0">
             <NoiseLayer
               scrollYProgress={scrollYProgress as MotionValue<number>}
-              waveT={waveT as MotionValue<number>}
+              storyWaveT={storyWaveT as MotionValue<number>}
+              waveClockT={waveClockT as MotionValue<number>}
+              waveIndex={waveIndex as MotionValue<number>}
               restlessT={restlessT as MotionValue<number>}
               entrainT={entrainT as MotionValue<number>}
-              ambientT={ambientT as MotionValue<number>}
             />
           </div>
 
-          {/* INTRUSIVE THOUGHTS (only early + pushed by wavefront) */}
+          {/* THOUGHTS */}
           <motion.div
             style={{ opacity: thoughtsOpacity }}
             className="absolute inset-0"
           >
             <IntrusiveThoughts
               scrollYProgress={scrollYProgress as MotionValue<number>}
-              waveT={waveT as MotionValue<number>}
+              waveT={storyWaveT as MotionValue<number>}
             />
           </motion.div>
 
-          {/* RIPPLE LAYER (wavefront + ambient calm) */}
+          {/* RING LAYER */}
           <motion.div
             style={{ opacity: waveOpacity }}
             className="absolute inset-0"
           >
             <CalmRipples
-              scrollYProgress={scrollYProgress as MotionValue<number>}
-              waveT={waveT as MotionValue<number>}
+              waveClockT={waveClockT as MotionValue<number>}
+              waveIndex={waveIndex as MotionValue<number>}
               calmOpacity={calmOpacity as MotionValue<number>}
-              ambientT={ambientT as MotionValue<number>}
+              waveActive={waveActive as MotionValue<number>}
             />
           </motion.div>
 
-          {/* COPY CONTROLLER (beats for both parts) */}
+          {/* COPY */}
           <PitchController
             scrollYProgress={scrollYProgress as MotionValue<number>}
           />
