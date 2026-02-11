@@ -59,24 +59,13 @@ export function StickyHeader() {
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <button
-              onClick={() => scrollToSection("features")}
-              className="text-slate-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
-            >
-              Features
-            </button>
             <Link
               href="/science"
               className="text-slate-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
             >
               Science
             </Link>
-            <button
-              onClick={() => scrollToSection("faq")}
-              className="text-slate-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
-            >
-              FAQ
-            </button>
+
             <JoinWaitlistButton className="px-6 py-2 rounded-full">
               Get early access
             </JoinWaitlistButton>
