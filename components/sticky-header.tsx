@@ -1,11 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { JoinWaitlistButton } from "./join-waitlist-button";
 import { useWaitlist } from "./waitlist-context";
 
 export function StickyHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,15 +38,24 @@ export function StickyHeader() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <button
-            onClick={() => scrollToSection("hero")}
-            className="flex items-center gap-2 group"
-          >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-500/50 transition-all duration-300">
-              <span className="text-white font-bold text-lg">θ</span>
-            </div>
-            <span className="text-xl font-bold text-white">ThetaMask</span>
-          </button>
+          {isHomePage ? (
+            <button
+              onClick={() => scrollToSection("hero")}
+              className="flex items-center gap-2 group"
+            >
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-500/50 transition-all duration-300">
+                <span className="text-white font-bold text-lg">θ</span>
+              </div>
+              <span className="text-xl font-bold text-white">ThetaMask</span>
+            </button>
+          ) : (
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-500/50 transition-all duration-300">
+                <span className="text-white font-bold text-lg">θ</span>
+              </div>
+              <span className="text-xl font-bold text-white">ThetaMask</span>
+            </Link>
+          )}
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-8">
@@ -52,12 +65,12 @@ export function StickyHeader() {
             >
               Features
             </button>
-            <button
-              onClick={() => scrollToSection("science")}
+            <Link
+              href="/science"
               className="text-slate-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
             >
               Science
-            </button>
+            </Link>
             <button
               onClick={() => scrollToSection("faq")}
               className="text-slate-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
