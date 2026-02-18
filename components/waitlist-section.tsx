@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { submitWaitlistEmail } from "@/actions/waitlist";
 import { useToast } from "./toast-context";
 import { SectionSeparator } from "./section-separator";
-import { SectionLabel, SectionIcons } from "./section-label";
 
 /**
  * SIMULATE_MODE - Toggle between simulation and real database calls

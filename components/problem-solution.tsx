@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { SectionSeparator } from "./section-separator";
-import { SectionLabel, SectionIcons } from "./section-label";
 
 const sections = [
   {

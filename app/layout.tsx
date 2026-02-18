@@ -4,28 +4,9 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-import {
-  Maven_Pro,
-  Geist_Mono,
-  Source_Serif_4,
-  Maven_Pro as V0_Font_Maven_Pro,
-  Geist_Mono as V0_Font_Geist_Mono,
-  Source_Serif_4 as V0_Font_Source_Serif_4,
-} from "next/font/google";
+import { Maven_Pro, Geist_Mono, Source_Serif_4 } from "next/font/google";
 
 // Initialize fonts
-const _mavenPro = V0_Font_Maven_Pro({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
-const _geistMono = V0_Font_Geist_Mono({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
-const _sourceSerif_4 = V0_Font_Source_Serif_4({
-  subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-});
 
 const mavenPro = Maven_Pro({
   subsets: ["latin"],

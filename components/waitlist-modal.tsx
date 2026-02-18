@@ -180,11 +180,11 @@ export function WaitlistModal({ open, onOpenChange }: WaitlistModalProps) {
           {status === "success" && (
             <div className="text-center text-sm animate-in fade-in-0 slide-in-from-bottom-2 duration-300 space-y-1">
               <p className="text-brand-light font-medium">
-                ✓ You're in! We'll email you when early access opens.
+                ✓ You&apos;re in! We&apos;ll email you when early access opens.
               </p>
               <p className="text-slate-300">
-                If you're in the first 1000, you'll get founder pricing at
-                launch.
+                If you&apos;re in the first 1000, you&apos;ll get founder
+                pricing at launch.
               </p>
             </div>
           )}

@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { JoinWaitlistButton } from "./join-waitlist-button";
-import { useWaitlist } from "./waitlist-context";
 
 export function StickyHeader() {
   const [isScrolled, setIsScrolled] = useState(false);

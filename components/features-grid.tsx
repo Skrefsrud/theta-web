@@ -117,7 +117,10 @@ function FeatureStep({
                   feature.visual
                 ) : (
                   <Image
-                    src={(feature as any).image || "/placeholder.svg"}
+                    src={
+                      (feature as { image?: string }).image ??
+                      "/placeholder.svg"
+                    }
                     alt={feature.title}
                     fill
                     className="object-cover"

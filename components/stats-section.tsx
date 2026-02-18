@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SectionSeparator } from "./section-separator";
-import { SectionLabel, SectionIcons } from "./section-label";
 
 export function StatsSection() {
   const [isVisible, setIsVisible] = useState(false);

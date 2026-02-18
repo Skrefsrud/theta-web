@@ -81,7 +81,6 @@ export function ThematicTiles() {
         "Track your progress and measure improvements in focus, sleep quality, and stress reduction over time.",
     },
   ];
-  ];
 
   return (
     <section className="relative py-16 md:py-20 overflow-hidden">

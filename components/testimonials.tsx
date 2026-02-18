@@ -1,8 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { SectionSeparator } from "./section-separator";
-import { SectionLabel, SectionIcons } from "./section-label";
 
 const testimonials = [
   {
@@ -78,7 +76,7 @@ export function Testimonials() {
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Quotation mark */}
                   <div className="text-5xl font-serif text-slate-700 mb-4 leading-none">
-                    "
+                    &quot;
                   </div>
 
                   {/* Quote */}

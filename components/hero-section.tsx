@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { JoinWaitlistButton } from "./join-waitlist-button";

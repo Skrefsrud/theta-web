@@ -120,7 +120,7 @@ export function ScienceContent() {
               Strengthening theta activity in the period before bedtime may help
               the brain disengage from active thinking and enter sleep more
               smoothly. Research has shown that stronger theta activity
-              facilitates sleep onset by helping the brain "let go" of
+              facilitates sleep onset by helping the brain &quot;let go&quot; of
               wakefulness and drift into sleep more quickly (Bavafa et al.,
               2021). Entrainment to slower frequencies has also been associated
               with deeper, more restorative sleep. For example, one study found
@@ -175,12 +175,12 @@ export function ScienceContent() {
               enhanced emotional insight, greater ability to observe thoughts
               with distance, and increased mindful awareness (Cone et al.,
               2025). Lastly, brainwave entrainment has been suggested as an
-              accessible "plug-and-play" alternative to meditation, as it
-              produces similar effects to a session of meditation (Johnson et
+              accessible &quot;plug-and-play&quot; alternative to meditation, as
+              it produces similar effects to a session of meditation (Johnson et
               al., 2024).
             </p>
             <p className="text-slate-300 leading-relaxed">
-              These findings suggest that by supporting the brain's natural
+              These findings suggest that by supporting the brain&apos;s natural
               tendency towards the theta rythm, brainwave entrainment can help
               make meditative states more accessible, particularly for those who
               find traditional meditation difficult or hard to sustain.
@@ -263,7 +263,7 @@ export function ScienceContent() {
               </Reference>
               <Reference>
                 Halpin, S. J., Tang, N. K. Y., Casson, A. J., Jones, A. K. P.,
-                O'Connor, R. J., & Sivan, M. (2023). User experiences of
+                O&apos;Connor, R. J., & Sivan, M. (2023). User experiences of
                 pre-sleep sensory alpha brainwave entrainment for people with
                 chronic pain and sleep disturbance. <i>Pain Management, 13</i>
                 (5), 259–270.{" "}

@@ -6,8 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SectionSeparator } from "./section-separator";
-import { SectionLabel, SectionIcons } from "./section-label";
 
 const faqs = [
   {
