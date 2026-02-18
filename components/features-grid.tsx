@@ -111,7 +111,7 @@ function FeatureStep({
             }}
             className={`relative ${!isEven ? "md:col-start-2" : ""}`}
           >
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-purple-500/10">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-brand/8">
               <div className="relative aspect-[4/3]">
                 {isValidElement(feature.visual) ? (
                   feature.visual
@@ -128,7 +128,7 @@ function FeatureStep({
 
               <motion.div
                 style={{ opacity: badgeOpacity, scale: badgeScale }}
-                className="absolute top-6 left-6 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 shadow-lg shadow-cyan-500/50 text-white font-bold text-sm"
+                className="absolute top-6 left-6 px-4 py-2 rounded-full bg-brand-deep shadow-lg shadow-brand/30 text-white font-bold text-sm"
               >
                 Step {feature.step}
               </motion.div>
@@ -146,10 +146,10 @@ function FeatureStep({
           >
             <motion.div
               style={{ opacity: badgeOpacity, scale: badgeScale }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 backdrop-blur-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand/10 border border-brand/20 backdrop-blur-sm"
             >
-              <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="text-sm font-medium text-cyan-300">
+              <div className="w-2 h-2 rounded-full bg-brand-light animate-pulse" />
+              <span className="text-sm font-medium text-brand-subtle">
                 {feature.badge}
               </span>
             </motion.div>
@@ -218,11 +218,11 @@ export function FeaturesGrid() {
       <section
         id="features"
         ref={containerRef}
-        className="relative py-0 overflow-visible bg-[#0d0d2f]"
+        className="relative py-0 overflow-visible bg-brand-bg"
         aria-label="Product features walkthrough"
       >
-        <div className="fixed left-1/4 top-1/3 w-[800px] h-[800px] bg-gradient-radial from-purple-500/10 via-transparent to-transparent blur-[120px] pointer-events-none" />
-        <div className="fixed right-1/4 bottom-1/3 w-[800px] h-[800px] bg-gradient-radial from-cyan-500/10 via-transparent to-transparent blur-[120px] pointer-events-none" />
+        <div className="fixed left-1/4 top-1/3 w-[800px] h-[800px] bg-gradient-radial from-brand/8 via-transparent to-transparent blur-[120px] pointer-events-none" />
+        <div className="fixed right-1/4 bottom-1/3 w-[800px] h-[800px] bg-gradient-radial from-brand-deep/5 via-transparent to-transparent blur-[120px] pointer-events-none" />
 
         <motion.div
           style={{ x: progressBarX, opacity: progressBarOpacity }}
@@ -231,7 +231,7 @@ export function FeaturesGrid() {
           <div className="relative w-0.5 h-64 bg-white/10 rounded-full overflow-hidden">
             <motion.div
               style={{ height: progressHeight }}
-              className="w-full bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full"
+              className="w-full bg-brand rounded-full"
             />
           </div>
 
@@ -241,7 +241,7 @@ export function FeaturesGrid() {
                 key={step}
                 className={`w-3 h-3 rounded-full transition-all ${
                   activeStep >= step
-                    ? "bg-gradient-to-br from-cyan-400 to-purple-500 shadow-lg shadow-cyan-500/50"
+                    ? "bg-brand shadow-lg shadow-brand/40"
                     : "bg-white/20"
                 }`}
                 whileHover={{ scale: 1.5 }}
@@ -289,7 +289,7 @@ export function FeaturesGrid() {
         </div>
 
         <div className="relative">
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent hidden md:block pointer-events-none" />
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-brand/15 to-transparent hidden md:block pointer-events-none" />
 
           {features.map((feature, index) => (
             <FeatureStep key={index} feature={feature} index={index} />

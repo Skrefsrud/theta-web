@@ -80,13 +80,13 @@ export function WaitlistSection() {
       <SectionSeparator variant="gradient" />
       <section
         id="waitlist"
-        className="relative pt-16 pb-28 md:pt-24 md:pb-28 overflow-hidden bg-[#0b0b26]"
+        className="relative pt-16 pb-28 md:pt-24 md:pb-28 overflow-hidden bg-brand-bg"
       >
-        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-radial from-cyan-500/15 via-purple-500/10 to-transparent blur-[120px] animate-[breathing_8s_ease-in-out_infinite]" />
+        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-radial from-brand/10 via-brand-deep/5 to-transparent blur-[120px] animate-[breathing_8s_ease-in-out_infinite]" />
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="max-w-2xl mx-auto bg-white/[0.07] backdrop-blur-md rounded-3xl shadow-[0_8px_40px_rgba(6,182,212,0.3),0_0_80px_rgba(147,51,234,0.2)] border-2 border-cyan-500/30 p-12 md:p-16 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 rounded-3xl" />
+          <div className="max-w-2xl mx-auto bg-white/[0.04] backdrop-blur-md rounded-3xl shadow-[0_8px_40px_rgb(var(--brand-rgb)/0.15),0_0_80px_rgb(var(--brand-rgb)/0.08)] border border-brand/20 p-12 md:p-16 relative overflow-hidden">
+            <div className="absolute inset-0 bg-brand/5 rounded-3xl" />
 
             <div className="text-center space-y-8 relative z-10">
               <div className="space-y-4">
@@ -112,13 +112,13 @@ export function WaitlistSection() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isPending || status === "success"}
-                    className="flex-1 bg-white/10 border-cyan-500/30 text-white placeholder:text-slate-400 focus:border-cyan-500 focus:ring-cyan-500/30 h-12 rounded-full px-6"
+                    className="flex-1 bg-white/8 border-brand/20 text-white placeholder:text-slate-500 focus:border-brand focus:ring-brand/20 h-12 rounded-full px-6"
                   />
                   <Button
                     type="submit"
                     disabled={isPending || status === "success"}
                     size="lg"
-                    className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-semibold px-8 rounded-full shadow-2xl shadow-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 h-12"
+                    className="bg-brand-deep hover:bg-brand-deeper text-white font-semibold px-8 rounded-full shadow-2xl shadow-brand/20 transition-all duration-300 hover:shadow-[0_0_40px_rgb(var(--brand-rgb)/0.4)] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 h-12"
                   >
                     {isPending
                       ? "Saving..."

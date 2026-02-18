@@ -85,7 +85,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${mavenPro.variable} ${geistMono.variable} ${sourceSerif4.variable} font-sans antialiased bg-gradient-to-br from-[#0D1025] via-[#0f1130] to-[#14153B] min-h-screen`}
+        className={`${mavenPro.variable} ${geistMono.variable} ${sourceSerif4.variable} font-sans antialiased bg-brand-bg min-h-screen`}
       >
         {children}
         <Analytics />

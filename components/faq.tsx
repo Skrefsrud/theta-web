@@ -41,9 +41,9 @@ export function FAQ() {
   return (
     <section
       id="faq"
-      className="relative py-16 md:pt-24 md:pb-12 overflow-hidden bg-[#0b0b26]"
+      className="relative py-16 md:pt-24 md:pb-12 overflow-hidden bg-brand-bg"
     >
-      <div className="absolute right-1/3 top-1/2 -translate-y-1/2 w-[600px] h-[500px] bg-gradient-radial from-purple-500/10 via-cyan-500/5 to-transparent blur-[100px]" />
+      <div className="absolute right-1/3 top-1/2 -translate-y-1/2 w-[600px] h-[500px] bg-gradient-radial from-brand/8 via-brand-deep/3 to-transparent blur-[100px]" />
 
       <div className="container mx-auto px-4 md:px-8 lg:px-12 relative z-10">
         <div className="text-center mb-12 md:mb-16 space-y-6">
@@ -63,7 +63,7 @@ export function FAQ() {
                 value={`item-${index}`}
                 className="border-b border-white/10 bg-transparent hover:bg-white/[0.02] transition-all duration-300"
               >
-                <AccordionTrigger className="text-xl md:text-2xl font-medium text-white hover:text-cyan-400 text-left py-6 px-2 hover:no-underline">
+                <AccordionTrigger className="text-xl md:text-2xl font-medium text-white hover:text-brand-light text-left py-6 px-2 hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-base md:text-lg text-slate-300 leading-relaxed pb-6 px-2">

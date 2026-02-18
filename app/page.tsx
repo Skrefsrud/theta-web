@@ -1,5 +1,4 @@
 import { HeroSection } from "@/components/hero-section";
-import { TrustBar } from "@/components/trust-bar";
 import { ProblemSolution } from "@/components/problem-solution";
 import { FeaturesGrid } from "@/components/features-grid";
 import { FAQ } from "@/components/faq";
@@ -18,7 +17,6 @@ export default function HomePage() {
         <main className="min-h-screen">
           <StickyHeader />
           <HeroSection />
-          <TrustBar />
           <ProblemSolution />
 
           <FeaturesGrid />

@@ -19,17 +19,17 @@ export function SectionSeparator({ variant = "glow" }: SectionSeparatorProps) {
             <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop
                 offset="0%"
-                stopColor="rgb(6, 182, 212)"
+                stopColor="rgb(var(--brand-rgb))"
                 stopOpacity="0.3"
               />
               <stop
                 offset="50%"
-                stopColor="rgb(168, 85, 247)"
-                stopOpacity="0.3"
+                stopColor="rgb(var(--brand-rgb))"
+                stopOpacity="0.35"
               />
               <stop
                 offset="100%"
-                stopColor="rgb(6, 182, 212)"
+                stopColor="rgb(var(--brand-rgb))"
                 stopOpacity="0.3"
               />
             </linearGradient>
@@ -56,8 +56,8 @@ export function SectionSeparator({ variant = "glow" }: SectionSeparatorProps) {
         transition={{ duration: 1.2, ease: "easeOut" }}
         viewport={{ once: true }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent blur-sm" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-light/30 to-transparent blur-sm" />
       </motion.div>
     );
   }
@@ -79,7 +79,7 @@ export function SectionSeparator({ variant = "glow" }: SectionSeparatorProps) {
         transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
         viewport={{ once: true }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand to-transparent" />
       </motion.div>
 
       {/* Blur glow effect */}
@@ -90,8 +90,8 @@ export function SectionSeparator({ variant = "glow" }: SectionSeparatorProps) {
         transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
         viewport={{ once: true }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-light/35 to-transparent" />
       </motion.div>
 
       {/* Decorative dots */}
@@ -102,9 +102,9 @@ export function SectionSeparator({ variant = "glow" }: SectionSeparatorProps) {
         transition={{ duration: 0.5, delay: 1 }}
         viewport={{ once: true }}
       >
-        <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-lg shadow-cyan-500/50" />
-        <div className="w-2 h-2 rounded-full bg-purple-400 shadow-lg shadow-purple-500/50" />
-        <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-lg shadow-cyan-500/50" />
+        <div className="w-2 h-2 rounded-full bg-brand-light shadow-lg shadow-brand/50" />
+        <div className="w-2 h-2 rounded-full bg-brand-subtle shadow-lg shadow-brand-light/50" />
+        <div className="w-2 h-2 rounded-full bg-brand-light shadow-lg shadow-brand/50" />
       </motion.div>
     </motion.div>
   );

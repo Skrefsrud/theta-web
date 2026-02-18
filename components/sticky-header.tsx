@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { JoinWaitlistButton } from "./join-waitlist-button";
@@ -31,7 +32,7 @@ export function StickyHeader() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,box-shadow] duration-300 ${
         isScrolled
-          ? "bg-[#0D1025]/80 backdrop-blur-2xl border-b border-white/10 shadow-xl"
+          ? "bg-brand-bg/90 backdrop-blur-2xl border-b border-white/8 shadow-xl"
           : "bg-transparent"
       }`}
     >
@@ -43,16 +44,26 @@ export function StickyHeader() {
               onClick={() => scrollToSection("hero")}
               className="flex items-center gap-2 group"
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-500/50 transition-all duration-300">
-                <span className="text-white font-bold text-lg">θ</span>
-              </div>
+              <Image
+                src="/images/logo2.png"
+                alt="ThetaMask logo"
+                width={40}
+                height={40}
+                quality={100}
+                className="drop-shadow-[0_0_8px_rgb(var(--brand-rgb)/0.5)] group-hover:drop-shadow-[0_0_12px_rgb(var(--brand-rgb)/0.7)] transition-all duration-300"
+              />
               <span className="text-xl font-bold text-white">ThetaMask</span>
             </button>
           ) : (
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-500/50 transition-all duration-300">
-                <span className="text-white font-bold text-lg">θ</span>
-              </div>
+              <Image
+                src="/images/logo2.png"
+                alt="ThetaMask logo"
+                width={40}
+                height={40}
+                quality={100}
+                className="drop-shadow-[0_0_8px_rgb(var(--brand-rgb)/0.5)] group-hover:drop-shadow-[0_0_12px_rgb(var(--brand-rgb)/0.7)] transition-all duration-300"
+              />
               <span className="text-xl font-bold text-white">ThetaMask</span>
             </Link>
           )}
@@ -61,7 +72,7 @@ export function StickyHeader() {
           <nav className="hidden md:flex items-center gap-8">
             <Link
               href="/science"
-              className="text-slate-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
+              className="text-slate-300 hover:text-brand-light transition-colors duration-200 font-medium"
             >
               Science
             </Link>

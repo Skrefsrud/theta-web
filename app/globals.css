@@ -4,6 +4,21 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* =====================================================
+     ThetaMask Brand Palette — edit ONLY these values to
+     retheme the entire site in one place.
+     ===================================================== */
+  --brand: oklch(0.58 0.2 252); /* core accent  (~blue-500) */
+  --brand-light: oklch(0.72 0.17 250); /* lighter tint (~blue-400) */
+  --brand-subtle: oklch(0.85 0.1 250); /* softest tint (~blue-300) */
+  --brand-deep: oklch(0.44 0.22 254); /* darker shade (~blue-600) */
+  --brand-deeper: oklch(0.36 0.19 254); /* hover shade  (~blue-700) */
+  --brand-bg: oklch(0.085 0.012 252); /* page background  */
+  --brand-surface: oklch(0.105 0.015 252); /* card/tile surface */
+  /* Raw sRGB channel values — keep in sync with --brand for rgba() */
+  --brand-rgb: 59 130 246;
+  /* ===================================================== */
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -16,7 +31,7 @@
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.7 0.17 200);
+  --accent: oklch(0.6 0.2 250);
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.53 0.19 25);
   --destructive-foreground: oklch(1 0 0);
@@ -89,6 +104,14 @@
 @theme inline {
   --font-sans: "Maven Pro", "Maven Pro Fallback";
   --font-mono: "Geist Mono", "Geist Mono Fallback";
+  /* Brand tokens — Tailwind utilities: bg-brand, text-brand-light, border-brand/20 … */
+  --color-brand: var(--brand);
+  --color-brand-light: var(--brand-light);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-deeper: var(--brand-deeper);
+  --color-brand-bg: var(--brand-bg);
+  --color-brand-surface: var(--brand-surface);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -289,12 +312,14 @@
 @keyframes glowPulse {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3),
-      0 0 40px rgba(147, 51, 234, 0.2);
+    box-shadow:
+      0 0 20px rgb(var(--brand-rgb) / 0.25),
+      0 0 40px rgb(var(--brand-rgb) / 0.12);
   }
   50% {
-    box-shadow: 0 0 30px rgba(6, 182, 212, 0.5),
-      0 0 60px rgba(147, 51, 234, 0.3);
+    box-shadow:
+      0 0 30px rgb(var(--brand-rgb) / 0.4),
+      0 0 60px rgb(var(--brand-rgb) / 0.2);
   }
 }
 

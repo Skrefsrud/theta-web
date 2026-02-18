@@ -41,7 +41,7 @@ export function TrustBar() {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   return (
-    <section className="relative pt-10 pb-20">
+    <section className="relative pt-6 pb-8">
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
@@ -57,11 +57,11 @@ export function TrustBar() {
                   {/* Glass accent circle with glow */}
                   <div className="relative">
                     {/* Ambient glow behind icon */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/30 to-purple-400/30 rounded-full blur-lg opacity-40 transition-opacity duration-300 animate-[pulse_3s_ease-in-out_infinite]" />
+                    <div className="absolute inset-0 bg-brand/15 rounded-full blur-lg opacity-40 transition-opacity duration-300 animate-[pulse_3s_ease-in-out_infinite]" />
 
                     {/* Glass circle container */}
                     <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-full p-4 border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300">
-                      <item.icon className="w-6 h-6 text-cyan-400 drop-shadow-[0_2px_8px_rgba(6,182,212,0.6)]" />
+                      <item.icon className="w-6 h-6 text-brand-light drop-shadow-[0_2px_8px_rgb(var(--brand-rgb)/0.5)]" />
                     </div>
                   </div>
 
@@ -77,11 +77,11 @@ export function TrustBar() {
                     ref={(el) => {
                       cardRefs.current[index] = el;
                     }}
-                    className="absolute top-full mt-4 left-1/2 -translate-x-1/2 w-64 md:w-80 bg-slate-900/95 backdrop-blur-xl border border-cyan-400/30 rounded-2xl p-6 shadow-[0_16px_48px_rgba(0,0,0,0.6)] z-50 animate-[fadeIn_300ms_ease-out]"
+                    className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 w-64 md:w-80 bg-slate-900/95 backdrop-blur-xl border border-brand/20 rounded-2xl p-6 shadow-[0_16px_48px_rgba(0,0,0,0.6)] z-50 animate-[fadeIn_300ms_ease-out]"
                   >
                     {/* Icon */}
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="bg-gradient-to-br from-cyan-400 to-purple-500 rounded-full p-2.5">
+                      <div className="bg-brand-deep rounded-full p-2.5">
                         <item.icon className="w-5 h-5 text-white" />
                       </div>
                       <h3 className="text-sm font-bold text-white">
@@ -95,7 +95,7 @@ export function TrustBar() {
                     </p>
 
                     {/* Arrow pointer */}
-                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-900 border-l border-t border-cyan-400/30 rotate-45" />
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-900 border-r border-b border-brand/20 rotate-45" />
                   </div>
                 )}
               </div>

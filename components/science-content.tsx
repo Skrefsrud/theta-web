@@ -16,7 +16,7 @@ export function ScienceContent() {
     <div className="relative">
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden pt-32 pb-8">
-        <div className="absolute right-[35%] top-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-radial from-cyan-400/20 via-indigo-500/15 to-transparent blur-[120px] rounded-[50%] opacity-70 animate-[breathing_8s_ease-in-out_infinite]" />
+        <div className="absolute right-[35%] top-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-radial from-brand/12 via-brand-deep/6 to-transparent blur-[120px] rounded-[50%] opacity-70 animate-[breathing_8s_ease-in-out_infinite]" />
 
         <div className="relative container mx-auto px-6">
           <motion.div
@@ -37,7 +37,7 @@ export function ScienceContent() {
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
               The Science Behind{" "}
-              <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand-light to-brand bg-clip-text text-transparent">
                 ThetaMask
               </span>
             </h1>
@@ -197,7 +197,7 @@ export function ScienceContent() {
             className="mt-16 p-8 rounded-2xl bg-gradient-to-br from-slate-900/50 to-slate-800/50 border border-slate-700/50 backdrop-blur-sm"
           >
             <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-              <BookOpen className="w-6 h-6 text-cyan-400" />
+              <BookOpen className="w-6 h-6 text-brand-light" />
               References
             </h3>
             <div className="space-y-4 text-sm text-slate-400">
@@ -210,7 +210,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.21203/rs.3.rs-7842751/v1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.21203/rs.3.rs-7842751/v1
                 </a>
@@ -224,7 +224,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.32598/bcn.2021.2162.1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.32598/bcn.2021.2162.1
                 </a>
@@ -238,7 +238,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.3389/fpsyg.2016.00492"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.3389/fpsyg.2016.00492
                 </a>
@@ -256,7 +256,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.3390/ijerph17249567"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.3390/ijerph17249567
                 </a>
@@ -271,7 +271,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.2217/pmt-2022-0083"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.2217/pmt-2022-0083
                 </a>
@@ -284,7 +284,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.1007/s10484-004-0385-2"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.1007/s10484-004-0385-2
                 </a>
@@ -297,7 +297,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.3389/fnhum.2018.00387"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.3389/fnhum.2018.00387
                 </a>
@@ -311,7 +311,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.1038/s41598-024-75943-8"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.1038/s41598-024-75943-8
                 </a>
@@ -326,7 +326,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.1016/s0926-6410(00)00086-0"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.1016/s0926-6410(00)00086-0
                 </a>
@@ -345,7 +345,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.1089/acm.2009.0113"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.1089/acm.2009.0113
                 </a>
@@ -359,7 +359,7 @@ export function ScienceContent() {
                   href="https://doi.org/10.1038/s44184-025-00156-4"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-brand-light hover:text-brand-subtle transition-colors"
                 >
                   https://doi.org/10.1038/s44184-025-00156-4
                 </a>
@@ -388,7 +388,7 @@ function ContentSection({ title, children, delay = 0 }: ContentSectionProps) {
       viewport={{ once: true }}
       className="mb-12 p-8 md:p-10 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-800/80 border border-slate-700/50 backdrop-blur-sm shadow-2xl"
     >
-      <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-6">
+      <h2 className="text-2xl md:text-3xl font-bold text-brand-light mb-6">
         {title}
       </h2>
       <div className="prose prose-invert max-w-none">{children}</div>

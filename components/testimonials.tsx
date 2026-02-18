@@ -30,9 +30,9 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="pt-8 pb-20 md:pt-12 md:pb-32 px-6 bg-[#0d0d2f] relative overflow-hidden">
+    <section className="pt-8 pb-20 md:pt-12 md:pb-32 px-6 bg-brand-bg relative overflow-hidden">
       {/* Ambient glow */}
-      <div className="absolute right-1/4 top-1/4 w-[800px] h-[800px] bg-gradient-radial from-purple-500/10 via-transparent to-transparent blur-[120px] pointer-events-none" />
+      <div className="absolute right-1/4 top-1/4 w-[800px] h-[800px] bg-gradient-radial from-brand/8 via-transparent to-transparent blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
@@ -72,7 +72,7 @@ export function Testimonials() {
               {/* Glassmorphism card */}
               <div className="relative bg-white/[0.03] backdrop-blur-lg rounded-2xl p-8 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-700 flex flex-col h-full">
                 {/* Subtle glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute inset-0 bg-brand/4 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
                 {/* Content */}
                 <div className="relative z-10 flex flex-col h-full">

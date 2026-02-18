@@ -20,7 +20,7 @@ export function SectionLabel({ icon, children, delay = 0 }: SectionLabelProps) {
         ease: [0.25, 0.1, 0.25, 1],
       }}
       viewport={{ once: true }}
-      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 backdrop-blur-sm shadow-lg shadow-cyan-500/10"
+      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand/10 border border-brand/20 backdrop-blur-sm shadow-lg shadow-brand/8"
     >
       {icon && (
         <motion.div
@@ -38,7 +38,7 @@ export function SectionLabel({ icon, children, delay = 0 }: SectionLabelProps) {
           {icon}
         </motion.div>
       )}
-      <span className="text-sm font-medium text-cyan-300 tracking-wide">
+      <span className="text-sm font-medium text-brand-light tracking-wide">
         {children}
       </span>
     </motion.div>
@@ -49,7 +49,7 @@ export function SectionLabel({ icon, children, delay = 0 }: SectionLabelProps) {
 export const SectionIcons = {
   Science: (
     <svg
-      className="w-4 h-4 text-cyan-400"
+      className="w-4 h-4 text-brand-light"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -64,7 +64,7 @@ export const SectionIcons = {
   ),
   Features: (
     <svg
-      className="w-4 h-4 text-cyan-400"
+      className="w-4 h-4 text-brand-light"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -79,7 +79,7 @@ export const SectionIcons = {
   ),
   Testimonials: (
     <svg
-      className="w-4 h-4 text-cyan-400"
+      className="w-4 h-4 text-brand-light"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -94,7 +94,7 @@ export const SectionIcons = {
   ),
   Stats: (
     <svg
-      className="w-4 h-4 text-cyan-400"
+      className="w-4 h-4 text-brand-light"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -109,7 +109,7 @@ export const SectionIcons = {
   ),
   FAQ: (
     <svg
-      className="w-4 h-4 text-cyan-400"
+      className="w-4 h-4 text-brand-light"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -124,7 +124,7 @@ export const SectionIcons = {
   ),
   Waitlist: (
     <svg
-      className="w-4 h-4 text-cyan-400"
+      className="w-4 h-4 text-brand-light"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -138,6 +138,6 @@ export const SectionIcons = {
     </svg>
   ),
   Pulse: (
-    <div className="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-lg shadow-cyan-500/50" />
+    <div className="w-3 h-3 rounded-full bg-brand-light animate-pulse shadow-lg shadow-brand/50" />
   ),
 };

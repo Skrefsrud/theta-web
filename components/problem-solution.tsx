@@ -11,7 +11,13 @@ const sections = [
       "Your mind races with thoughts from the day. Anxiety keeps you tossing and turning. Quality sleep feels impossible.",
     solution:
       "ThetaMask uses scientifically-calibrated LED light pulses to guide your brainwaves into a deeply relaxed theta state, helping you fall asleep naturally.",
+    bullets: [
+      "Gentle light pulses calibrated to theta frequency ranges",
+      "No audio, no screens, no sleep aids required",
+      "Designed to work with your body's natural rhythms",
+    ],
     image: "/images/theta-sleeping.png",
+    imagePosition: "center",
   },
   {
     problem: "Struggling to Meditate?",
@@ -19,7 +25,13 @@ const sections = [
       "Traditional meditation feels like a constant battle against distraction. Your mind wanders after just seconds.",
     solution:
       "Brainwave entrainment through synchronized light patterns trains your brain to enter meditative states, enabling an easier transition into deep meditation.",
+    bullets: [
+      "No prior meditation experience needed",
+      "Passive guidance — the mask does the work",
+      "Use anytime: morning, midday, or before bed",
+    ],
     image: "/images/theta-meditating.png",
+    imagePosition: "center 30%",
   },
 ];
 
@@ -29,9 +41,9 @@ export function ProblemSolution() {
       <SectionSeparator variant="gradient" />
       <section
         id="science"
-        className="relative py-16 md:py-24 overflow-hidden bg-[#0a0a20]"
+        className="relative py-16 md:py-24 overflow-hidden bg-brand-bg"
       >
-        <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-cyan-500/10 via-purple-500/5 to-transparent blur-[100px]" />
+        <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-brand/8 via-brand-deep/3 to-transparent blur-[100px]" />
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="space-y-16">
@@ -44,26 +56,38 @@ export function ProblemSolution() {
                 >
                   {/* Text Content */}
                   <div className="flex-[1.2] space-y-6">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent text-balance mb-8 drop-shadow-[0_2px_8px_rgba(6,182,212,0.3)] py-2">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-brand-subtle to-brand bg-clip-text text-transparent text-balance mb-8 drop-shadow-[0_2px_8px_rgb(var(--brand-rgb)/0.2)] py-2">
                       {section.problem}
                     </h2>
                     <p className="text-lg text-slate-300 leading-relaxed">
                       {section.empathy}
                     </p>
-                    <div className="pt-4 border-t-2 border-cyan-500/50">
+                    <div className="pt-4 border-t-2 border-brand/30">
                       <p className="text-xl text-slate-200 leading-relaxed font-medium">
                         {section.solution}
                       </p>
                     </div>
+                    <ul className="space-y-3 pt-2">
+                      {section.bullets.map((bullet, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-3 text-slate-300"
+                        >
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
                   {/* Image */}
-                  <div className="flex-1 relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
+                  <div className="flex-1 relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                     <Image
                       src={section.image || "/placeholder.svg"}
                       alt={section.problem}
                       fill
                       className="object-cover"
+                      style={{ objectPosition: section.imagePosition }}
                     />
                   </div>
                 </div>

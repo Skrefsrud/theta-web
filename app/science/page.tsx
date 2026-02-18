@@ -16,7 +16,7 @@ export default function SciencePage() {
   return (
     <ToastProvider>
       <WaitlistProvider>
-        <main className="min-h-screen bg-gradient-to-b from-[#0a0a20] via-[#0D1025] to-[#0a0a20]">
+        <main className="min-h-screen bg-brand-bg">
           <StickyHeader />
           <ScienceContent />
           <Footer />

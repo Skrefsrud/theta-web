@@ -16,7 +16,7 @@ export function ToastContainer() {
           <div className="flex items-start gap-3">
             {/* Icon */}
             {toast.type === "success" ? (
-              <CheckCircle2 className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-5 h-5 text-brand-light flex-shrink-0 mt-0.5" />
             ) : (
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
             )}
@@ -24,7 +24,7 @@ export function ToastContainer() {
             {/* Message */}
             <p
               className={`flex-1 text-sm font-medium ${
-                toast.type === "success" ? "text-cyan-100" : "text-red-100"
+                toast.type === "success" ? "text-white" : "text-red-100"
               }`}
             >
               {toast.message}
@@ -43,7 +43,7 @@ export function ToastContainer() {
           <div className="mt-2 h-1 bg-white/5 rounded-full overflow-hidden">
             <div
               className={`h-full ${
-                toast.type === "success" ? "bg-cyan-400" : "bg-red-400"
+                toast.type === "success" ? "bg-brand-light" : "bg-red-400"
               } animate-[shrink_5s_linear]`}
             />
           </div>
